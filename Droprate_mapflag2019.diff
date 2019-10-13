@@ -1,0 +1,168 @@
+From 533b7b277059d438bba90356c317a3467bee767b Mon Sep 17 00:00:00 2001
+From: valhein <35770095+attackjom@users.noreply.github.com>
+Date: Sun, 13 Oct 2019 23:23:09 +0700
+Subject: Drop Rate Mapflag 2019
+
+
+diff --git a/conf/battle/drops.conf b/conf/battle/drops.conf
+index e8ae97cb3..cab5c7bb1 100644
+--- a/conf/battle/drops.conf
++++ b/conf/battle/drops.conf
+@@ -153,3 +153,6 @@ rare_drop_announce: 0
+ // If RENEWAL_DROP, Bubble Gum, or any other modifiers are active autoloot
+ // will take them into account.
+ autoloot_adjust: 0
++
++// Enable the droprate mapflag? (Note 1)
++droprate_mapflag: 1
+
+
+diff --git a/src/map/atcommand.cpp b/src/map/atcommand.cpp
+index 68b49fb93..ef5d8a794 100644
+--- a/src/map/atcommand.cpp
++++ b/src/map/atcommand.cpp
+@@ -4203,6 +4203,8 @@ ACMD_FUNC(mapinfo) {
+ 		strcat(atcmd_output, " PartyLock |");
+ 	if (map_getmapflag(m_id, MF_GUILDLOCK))
+ 		strcat(atcmd_output, " GuildLock |");
++	if (map_getmapflag(m_id, MF_DROPRATE))
++		strcat(atcmd_output, " DropRate |");
+ 	if (map_getmapflag(m_id, MF_LOADEVENT))
+ 		strcat(atcmd_output, " Loadevent |");
+ 	if (map_getmapflag(m_id, MF_NOMAPCHANNELAUTOJOIN))
+
+
+diff --git a/src/map/battle.cpp b/src/map/battle.cpp
+index 02e2c2665..b242e02d6 100644
+--- a/src/map/battle.cpp
++++ b/src/map/battle.cpp
+@@ -8374,6 +8374,7 @@ static const struct _battle_data {
+ 	{ "display_party_name",                 &battle_config.display_party_name,              0,      0,      1,              },
+ 	{ "cashshop_show_points",               &battle_config.cashshop_show_points,            0,      0,      1,              },
+ 	{ "mail_show_status",                   &battle_config.mail_show_status,                0,      0,      2,              },
++	{ "droprate_mapflag",                   &battle_config.droprate_mapflag,                0,      0,      1,              },
+ 	{ "client_limit_unit_lv",               &battle_config.client_limit_unit_lv,            0,      0,      BL_ALL,         },
+ // BattleGround Settings
+ 	{ "bg_update_interval",                 &battle_config.bg_update_interval,              1000,   100,    INT_MAX,        },
+
+
+diff --git a/src/map/battle.hpp b/src/map/battle.hpp
+index 55abefaa5..e145c409b 100644
+--- a/src/map/battle.hpp
++++ b/src/map/battle.hpp
+@@ -499,6 +499,7 @@ struct Battle_Config
+ 	int display_party_name;
+ 	int cashshop_show_points;
+ 	int mail_show_status;
++	int droprate_mapflag; // [Xantara]
+ 	int client_limit_unit_lv;
+ 	int hom_max_level;
+ 	int hom_S_max_level;
+
+
+diff --git a/src/map/map.cpp b/src/map/map.cpp
+index 5fcdf5c2b..1446c0885 100644
+--- a/src/map/map.cpp
++++ b/src/map/map.cpp
+@@ -3649,6 +3649,7 @@ void map_flags_init(void){
+ 		mapdata->flag[MF_NOCOMMAND] = false; // nocommand mapflag level
+ 		map_setmapflag_sub(i, MF_BEXP, true, &args); // per map base exp multiplicator
+ 		map_setmapflag_sub(i, MF_JEXP, true, &args); // per map job exp multiplicator
++		map_setmapflag_sub(i, MF_DROPRATE, true, &args); // per map job exp multiplicator
+
+ 		// Clear adjustment data, will be reset after loading NPC
+ 		mapdata->damage_adjust = {};
+@@ -4790,6 +4791,13 @@ bool map_setmapflag_sub(int16 m, enum e_mapflag mapflag, bool status, union u_ma
+ 			} else
+ 				mapdata->flag[mapflag] = false;
+ 			break;
++		case MF_DROPRATE:
++			if (status) {
++				nullpo_retr(false, args);
++				mapdata->flag[mapflag] = args->flag_val;
++			} else
++				mapdata->flag[mapflag] = false;
++			break;
+ 		case MF_BATTLEGROUND:
+ 			if (status) {
+ 				nullpo_retr(false, args);
+
+
+diff --git a/src/map/map.hpp b/src/map/map.hpp
+index c98c3e9b4..d00ab3256 100644
+--- a/src/map/map.hpp
++++ b/src/map/map.hpp
+@@ -589,6 +589,7 @@ enum e_mapflag : int16 {
+ 	MF_PRIVATEAIRSHIP_SOURCE,
+ 	MF_PRIVATEAIRSHIP_DESTINATION,
+ 	MF_SKILL_DURATION,
++	MF_DROPRATE,
+ 	MF_MAX
+ };
+
+
+diff --git a/src/map/mob.cpp b/src/map/mob.cpp
+index 9ce390b03..d5570a600 100644
+--- a/src/map/mob.cpp
++++ b/src/map/mob.cpp
+@@ -2744,6 +2744,10 @@ int mob_dead(struct mob_data *md, struct block_list *src, int type)
+ 					drop_rate += (int)(0.5 + drop_rate * battle_config.vip_drop_increase / 100.);
+ 					drop_rate = min(drop_rate,10000); //cap it to 100%
+ 				}
++
++				// Drops affected by the mapflag droprate [Xantara]
++				if(map_getmapflag(m, MF_DROPRATE) && battle_config.droprate_mapflag)
++					drop_rate = (int)(drop_rate * map_getmapflag(m, MF_DROPRATE) / 100. );
+ 			}
+
+ #ifdef RENEWAL_DROP
+@@ -2907,6 +2911,11 @@ int mob_dead(struct mob_data *md, struct block_list *src, int type)
+ 				if (temp != 10000) {
+ 					if(temp <= 0 && !battle_config.drop_rate0item)
+ 						temp = 1;
++
++					// Drops affected by the mapflag droprate [Xantara]
++				if(map_getmapflag(m, MF_DROPRATE) && battle_config.droprate_mapflag)
++					temp = (int)( (temp * map_getmapflag(m, MF_DROPRATE)) / 100. );
++
+ 					if(rnd()%10000 >= temp) //if ==0, then it doesn't drop
+ 						continue;
+ 				}
+
+
+diff --git a/src/map/npc.cpp b/src/map/npc.cpp
+index c33c414a8..76e4a009e 100644
+--- a/src/map/npc.cpp
++++ b/src/map/npc.cpp
+@@ -4234,6 +4234,17 @@ static const char* npc_parse_mapflag(char* w1, char* w2, char* w3, char* w4, con
+ 			}
+ 			break;
+ 		}
++
++		case MF_DROPRATE: {
++				union u_mapflag_args args = {};
++
++				if (sscanf(w4, "%11d", &args.flag_val) < 1)
++					args.flag_val = 0;
++
++				map_setmapflag_sub(m, mapflag, state, &args);
++
++			break;
++		}
+
+ 		// All others do not need special treatment
+ 		default:
+
+
+diff --git a/src/map/script_constants.hpp b/src/map/script_constants.hpp
+index c5fa3dd62..42d498971 100644
+--- a/src/map/script_constants.hpp
++++ b/src/map/script_constants.hpp
+@@ -457,6 +457,7 @@
+ 	export_constant(MF_PRIVATEAIRSHIP_SOURCE);
+ 	export_constant(MF_PRIVATEAIRSHIP_DESTINATION);
+ 	export_constant(MF_SKILL_DURATION);
++	export_constant(MF_DROPRATE);
+
+ 	/* setcell types */
+ 	export_constant(CELL_WALKABLE);

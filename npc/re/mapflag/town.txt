@@ -25,3 +25,5 @@ malangdo	mapflag	town
 malaya	mapflag	town
 mora	mapflag	town
 lasagna	mapflag	town
+
+geffen	mapflag	droprate	20000
