@@ -2744,6 +2744,10 @@ int mob_dead(struct mob_data *md, struct block_list *src, int type)
 					drop_rate += (int)(0.5 + drop_rate * battle_config.vip_drop_increase / 100.);
 					drop_rate = min(drop_rate,10000); //cap it to 100%
 				}
+				
+				// Drops affected by the mapflag droprate [Xantara]
+				if(map_getmapflag(m, MF_DROPRATE) && battle_config.droprate_mapflag)
+					drop_rate = (int)(drop_rate * map_getmapflag(m, MF_DROPRATE) / 100. );
 			}
 
 #ifdef RENEWAL_DROP
@@ -2907,6 +2911,11 @@ int mob_dead(struct mob_data *md, struct block_list *src, int type)
 				if (temp != 10000) {
 					if(temp <= 0 && !battle_config.drop_rate0item)
 						temp = 1;
+					
+					// Drops affected by the mapflag droprate [Xantara]
+				if(map_getmapflag(m, MF_DROPRATE) && battle_config.droprate_mapflag)
+					temp = (int)( (temp * map_getmapflag(m, MF_DROPRATE)) / 100. );
+					
 					if(rnd()%10000 >= temp) //if ==0, then it doesn't drop
 						continue;
 				}

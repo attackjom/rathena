@@ -4203,6 +4203,8 @@ ACMD_FUNC(mapinfo) {
 		strcat(atcmd_output, " PartyLock |");
 	if (map_getmapflag(m_id, MF_GUILDLOCK))
 		strcat(atcmd_output, " GuildLock |");
+	if (map_getmapflag(m_id, MF_DROPRATE))
+		strcat(atcmd_output, " DropRate |");
 	if (map_getmapflag(m_id, MF_LOADEVENT))
 		strcat(atcmd_output, " Loadevent |");
 	if (map_getmapflag(m_id, MF_NOMAPCHANNELAUTOJOIN))

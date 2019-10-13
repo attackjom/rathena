@@ -499,6 +499,7 @@ struct Battle_Config
 	int display_party_name;
 	int cashshop_show_points;
 	int mail_show_status;
+	int droprate_mapflag; // [Xantara]
 	int client_limit_unit_lv;
 	int hom_max_level;
 	int hom_S_max_level;

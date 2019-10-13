@@ -4234,6 +4234,17 @@ static const char* npc_parse_mapflag(char* w1, char* w2, char* w3, char* w4, con
 			}
 			break;
 		}
+		
+		case MF_DROPRATE: {
+				union u_mapflag_args args = {};
+
+				if (sscanf(w4, "%11d", &args.flag_val) < 1)
+					args.flag_val = 0;
+
+				map_setmapflag_sub(m, mapflag, state, &args);
+			
+			break;
+		}
 
 		// All others do not need special treatment
 		default:
