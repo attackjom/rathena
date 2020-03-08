@@ -23244,7 +23244,7 @@ Body:
       IgnoreItemBonus: true
     Requires:
       SpCost: 30
-    - Id: 2314
+  - Id: 2314
     Name: LG_RAGEBURST
     Description: Rage Burst
     MaxLevel: 1
