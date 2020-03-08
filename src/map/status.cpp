@@ -3357,8 +3357,6 @@ bool status_calc_weight(struct map_session_data *sd, enum e_status_calc_weight_o
 			sd->max_weight += sd->max_weight * sc->data[SC_KNOWLEDGE]->val1 / 10;
 		if ((skill = pc_checkskill(sd, ALL_INCCARRY)) > 0)
 			sd->max_weight += 2000 * skill;
-		if (pc_ismadogear(sd))
-			sd->max_weight += 15000;
 	}
 
 	// Update the client if the new weight calculations don't match
@@ -4165,7 +4163,7 @@ int status_calc_pc_sub(struct map_session_data* sd, enum e_status_calc_opt opt)
 	status_calc_weight(sd, CALCWT_MAXBONUS);
 	status_calc_cart_weight(sd, CALCWT_MAXBONUS);
 
-	if (pc_checkskill(sd, SM_MOVINGRECOVERY) > 0 || pc_ismadogear(sd))
+	if (pc_checkskill(sd,SM_MOVINGRECOVERY)>0)
 		sd->regen.state.walk = 1;
 	else
 		sd->regen.state.walk = 0;
@@ -6794,20 +6792,6 @@ static unsigned short status_calc_speed(struct block_list *bl, struct status_cha
 	if (sc == NULL || (sd && sd->state.permanent_speed))
 		return (unsigned short)cap_value(speed, MIN_WALK_SPEED, MAX_WALK_SPEED);
 
-	if (sd && pc_ismadogear(sd)) { // Mado speed is not affected by other statuses
-		int val = 0;
-
-		if (pc_checkskill(sd, NC_MADOLICENCE) < 5)
-			val = 50 - 10 * pc_checkskill(sd, NC_MADOLICENCE);
-		else
-			val -= 25;
-		if (sc->data[SC_ACCELERATION])
-			val -= 25;
-		speed += speed * val / 100;
-
-		return (unsigned short)cap_value(speed, MIN_WALK_SPEED, MAX_WALK_SPEED);
-	}
-
 	if( sd && sd->ud.skilltimer != INVALID_TIMER && (pc_checkskill(sd,SA_FREECAST) > 0 || sd->ud.skill_id == LG_EXEEDBREAK) ) {
 		if( sd->ud.skill_id == LG_EXEEDBREAK )
 			speed_rate = 160 - 10 * sd->ud.skill_lv;
@@ -6824,6 +6808,11 @@ static unsigned short status_calc_speed(struct block_list *bl, struct status_cha
 				val = 25; // Same bonus
 			else if( pc_isridingwug(sd) )
 				val = 15 + 5 * pc_checkskill(sd, RA_WUGRIDER);
+			else if( pc_ismadogear(sd) ) {
+				val = -(50 - 10 * pc_checkskill(sd,NC_MADOLICENCE));
+				if( sc->data[SC_ACCELERATION] )
+					val += 25;
+			}
 			else if( sc->data[SC_ALL_RIDING] )
 				val = battle_config.rental_mount_speed_boost;
 		}
@@ -11139,8 +11128,6 @@ int status_change_start(struct block_list* src, struct block_list* bl,enum sc_ty
 			val2 = 50; // -Hit
 			break;
 
-		case SC_OVERHEAT:
-		case SC_OVERHEAT_LIMITPOINT:
 		case SC_STEALTHFIELD:
 			tick_time = tick;
 			tick = INFINITE_TICK;
@@ -11391,7 +11378,6 @@ int status_change_start(struct block_list* src, struct block_list* bl,enum sc_ty
 		case SC_SPHERE_3:
 		case SC_SPHERE_4:
 		case SC_SPHERE_5:
-		case SC_OVERHEAT:
 		case SC_LIGHTNINGWALK:
 		case SC_MONSTER_TRANSFORM:
 		case SC_ACTIVE_MONSTER_TRANSFORM:
@@ -13567,31 +13553,21 @@ TIMER_FUNC(status_change_timer){
 		break;
 
 	case SC_OVERHEAT_LIMITPOINT:
-		if (--(sce->val1) >= 0) { // Cooling
-			int16 limit[] = { 150, 200, 280, 360, 450 };
-			uint16 skill_lv = (sd ? pc_checkskill(sd, NC_MAINFRAME) : 0);
-
-			if (sc && sc->data[SC_OVERHEAT])
-				status_change_end(bl,SC_OVERHEAT,INVALID_TIMER);
-			if (sce->val1 > limit[skill_lv])
-				sc_start(bl, bl, SC_OVERHEAT, 100, sce->val1, 1000);
-			sc_timer_next(1000 + tick);
-			return 0;
+		if( --(sce->val1) > 0 ) { // Cooling
+			sc_timer_next(30000 + tick);
 		}
 		break;
 
-	case SC_OVERHEAT: {
+	case SC_OVERHEAT:
+		{
 			int damage = status->max_hp / 100; // Suggestion 1% each second
-
-			if (damage >= status->hp)
-				damage = status->hp - 1; // Do not kill, just keep you with 1 hp minimum
+			if( damage >= status->hp ) damage = status->hp - 1; // Do not kill, just keep you with 1 hp minimum
 			map_freeblock_lock();
-			status_fix_damage(NULL, bl, damage, clif_damage(bl, bl, tick, 0, 0, damage, 0, DMG_NORMAL, 0, false));
-			if (sc->data[type]) {
+			status_fix_damage(NULL,bl,damage,clif_damage(bl,bl,tick,0,0,damage,0,DMG_NORMAL,0,false));
+			if( sc->data[type] ) {
 				sc_timer_next(1000 + tick);
 			}
 			map_freeblock_unlock();
-			return 0;
 		}
 		break;
 

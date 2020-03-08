@@ -11192,27 +11192,28 @@ bool pc_setstand(struct map_session_data *sd, bool force){
 }
 
 /**
- * Calculate Overheat value
- * @param sd: Player data
- * @param heat: Amount of Heat to adjust
+ * Mechanic (MADO GEAR)
  **/
-void pc_overheat(struct map_session_data *sd, int16 heat) {
-	struct status_change_entry *sce = NULL;
-	int16 limit[] = { 150, 200, 280, 360, 450 };
-	uint16 skill_lv;
+void pc_overheat(struct map_session_data *sd, int val) {
+	int heat = val, skill,
+		limit[] = { 10, 20, 28, 46, 66 };
 
-	nullpo_retv(sd);
+	if( !pc_ismadogear(sd) || sd->sc.data[SC_OVERHEAT] )
+		return; // already burning
 
-	skill_lv = cap_value(pc_checkskill(sd, NC_MAINFRAME), 0, 4);
-	if ((sce = sd->sc.data[SC_OVERHEAT_LIMITPOINT])) {
-		sce->val1 += heat;
-		sce->val1 = cap_value(sce->val1, 0, 1000);
-		if (sd->sc.data[SC_OVERHEAT])
-			status_change_end(&sd->bl, SC_OVERHEAT, INVALID_TIMER);
-		if (sce->val1 > limit[skill_lv])
-			sc_start(&sd->bl, &sd->bl, SC_OVERHEAT, 100, sce->val1, 1000);
-	} else if (heat > 0)
-		sc_start(&sd->bl, &sd->bl, SC_OVERHEAT_LIMITPOINT, 100, heat, 1000);
+	skill = cap_value(pc_checkskill(sd,NC_MAINFRAME),0,4);
+	if( sd->sc.data[SC_OVERHEAT_LIMITPOINT] ) {
+		heat += sd->sc.data[SC_OVERHEAT_LIMITPOINT]->val1;
+		status_change_end(&sd->bl,SC_OVERHEAT_LIMITPOINT,INVALID_TIMER);
+	}
+
+	heat = max(0,heat); // Avoid negative HEAT
+	if( heat >= limit[skill] )
+		sc_start(&sd->bl,&sd->bl,SC_OVERHEAT,100,0,1000);
+	else
+		sc_start(&sd->bl,&sd->bl,SC_OVERHEAT_LIMITPOINT,100,heat,30000);
+
+	return;
 }
 
 /**
