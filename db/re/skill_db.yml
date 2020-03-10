@@ -17920,6 +17920,8 @@ Body:
     DamageFlags:
       Splash: true
       IgnoreFlee: true
+      IgnoreDefense: true
+      IgnoreAtkCard: true
     Flags:
       TargetTrap: true
     Range: 9
@@ -27604,6 +27606,7 @@ Body:
     DamageFlags:
       Splash: true
       IgnoreFlee: true
+      IgnoreDefense: true
     Range:
       - Level: 1
         Size: 7
@@ -31106,6 +31109,8 @@ Body:
     DamageFlags:
       Splash: true
       IgnoreFlee: true
+      IgnoreDefense: true
+      IgnoreAtkCard: true
     Flags:
       TargetTrap: true
     Range: 9
