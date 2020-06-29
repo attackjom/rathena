@@ -50,51 +50,566 @@
 	if (.@Delay)
 	@HD = gettimetick(2) + .@Delay;
 	end;
-	
-OnInit:
-	waitingroom "ฟื้นฟูพลังชีวิต",0;
-	end;
 }
 
 
 // Duplicates
 //============================================================
-alberta,25,240,6	duplicate(Healer)	ฟื้นฟูพลังชีวิต#alb	10301
-aldebaran,135,118,6	duplicate(Healer)	ฟื้นฟูพลังชีวิต#alde	10301
-amatsu,200,79,4	duplicate(Healer)	ฟื้นฟูพลังชีวิต#ama	10301
-ayothaya,207,169,6	duplicate(Healer)	ฟื้นฟูพลังชีวิต#ayo	10301
-comodo,184,158,6	duplicate(Healer)	ฟื้นฟูพลังชีวิต#com	10301
-einbech,57,36,6	duplicate(Healer)	ฟื้นฟูพลังชีวิต#einbe	10301
-einbroch,57,202,6	duplicate(Healer)	ฟื้นฟูพลังชีวิต#einbr	10301
-geffen,115,72,6	duplicate(Healer)	ฟื้นฟูพลังชีวิต#gef	10301
-gonryun,156,122,6	duplicate(Healer)	ฟื้นฟูพลังชีวิต#gon	10301
-hugel,89,150,6	duplicate(Healer)	ฟื้นฟูพลังชีวิต#hug	10301
-izlude,121,150,6	duplicate(Healer)	ฟื้นฟูพลังชีวิต#izl	10301	//Pre-RE: (125,118)
-jawaii,250,139,4	duplicate(Healer)	ฟื้นฟูพลังชีวิต#jaw	10301
-lighthalzen,152,100,6	duplicate(Healer)	ฟื้นฟูพลังชีวิต#lhz	10301
-louyang,226,103,4	duplicate(Healer)	ฟื้นฟูพลังชีวิต#lou	10301
-manuk,272,144,6	duplicate(Healer)	ฟื้นฟูพลังชีวิต#man	10301
-mid_camp,203,289,6	duplicate(Healer)	ฟื้นฟูพลังชีวิต#mid	10301
-moc_ruins,72,164,4	duplicate(Healer)	ฟื้นฟูพลังชีวิต#moc	10301
-morocc,153,97,6	duplicate(Healer)	ฟื้นฟูพลังชีวิต#mor	10301
-moscovia,220,191,4	duplicate(Healer)	ฟื้นฟูพลังชีวิต#mos	10301
-niflheim,212,182,5	duplicate(Healer)	ฟื้นฟูพลังชีวิต#nif	10301
-payon,179,106,4	duplicate(Healer)	ฟื้นฟูพลังชีวิต#pay	10301
-prontera,163,193,4	duplicate(Healer)	ฟื้นฟูพลังชีวิต#prt	10301
-rachel,125,116,6	duplicate(Healer)	ฟื้นฟูพลังชีวิต#rac	10301
-splendide,201,153,4	duplicate(Healer)	ฟื้นฟูพลังชีวิต#spl	10301
-thor_camp,249,74,4	duplicate(Healer)	ฟื้นฟูพลังชีวิต#thor	10301
-umbala,105,148,3	duplicate(Healer)	ฟื้นฟูพลังชีวิต#umb	10301
-veins,217,121,4	duplicate(Healer)	ฟื้นฟูพลังชีวิต#ve	10301
-xmas,143,136,4	duplicate(Healer)	ฟื้นฟูพลังชีวิต#xmas	10301
-yuno,164,45,4	duplicate(Healer)	ฟื้นฟูพลังชีวิต#yuno	10301
+alberta,25,240,6	duplicate(Healer)	ฟื้นฟูพลังชีวิต#alb	909
+aldebaran,135,118,6	duplicate(Healer)	ฟื้นฟูพลังชีวิต#alde	909
+amatsu,200,79,4	duplicate(Healer)	ฟื้นฟูพลังชีวิต#ama	909
+ayothaya,207,169,6	duplicate(Healer)	ฟื้นฟูพลังชีวิต#ayo	909
+comodo,184,158,6	duplicate(Healer)	ฟื้นฟูพลังชีวิต#com	909
+einbech,57,36,6	duplicate(Healer)	ฟื้นฟูพลังชีวิต#einbe	909
+einbroch,57,202,6	duplicate(Healer)	ฟื้นฟูพลังชีวิต#einbr	909
+geffen,115,72,6	duplicate(Healer)	ฟื้นฟูพลังชีวิต#gef	909
+gonryun,156,122,6	duplicate(Healer)	ฟื้นฟูพลังชีวิต#gon	909
+hugel,89,150,6	duplicate(Healer)	ฟื้นฟูพลังชีวิต#hug	909
+izlude,121,150,6	duplicate(Healer)	ฟื้นฟูพลังชีวิต#izl	909	//Pre-RE: (125,118)
+jawaii,250,139,4	duplicate(Healer)	ฟื้นฟูพลังชีวิต#jaw	909
+lighthalzen,152,100,6	duplicate(Healer)	ฟื้นฟูพลังชีวิต#lhz	909
+louyang,226,103,4	duplicate(Healer)	ฟื้นฟูพลังชีวิต#lou	909
+manuk,272,144,6	duplicate(Healer)	ฟื้นฟูพลังชีวิต#man	909
+mid_camp,203,289,6	duplicate(Healer)	ฟื้นฟูพลังชีวิต#mid	909
+moc_ruins,72,164,4	duplicate(Healer)	ฟื้นฟูพลังชีวิต#moc	909
+morocc,153,97,6	duplicate(Healer)	ฟื้นฟูพลังชีวิต#mor	909
+moscovia,220,191,4	duplicate(Healer)	ฟื้นฟูพลังชีวิต#mos	909
+niflheim,212,182,5	duplicate(Healer)	ฟื้นฟูพลังชีวิต#nif	909
+payon,179,106,4	duplicate(Healer)	ฟื้นฟูพลังชีวิต#pay	909
+prontera,162,193,4	duplicate(Healer)	ฟื้นฟูพลังชีวิต#prt	909
+rachel,125,116,6	duplicate(Healer)	ฟื้นฟูพลังชีวิต#rac	909
+splendide,201,153,4	duplicate(Healer)	ฟื้นฟูพลังชีวิต#spl	909
+thor_camp,249,74,4	duplicate(Healer)	ฟื้นฟูพลังชีวิต#thor	909
+umbala,105,148,3	duplicate(Healer)	ฟื้นฟูพลังชีวิต#umb	909
+veins,217,121,4	duplicate(Healer)	ฟื้นฟูพลังชีวิต#ve	909
+xmas,143,136,4	duplicate(Healer)	ฟื้นฟูพลังชีวิต#xmas	909
+yuno,164,45,4	duplicate(Healer)	ฟื้นฟูพลังชีวิต#yuno	909
 
 // Duplicates (Renewal)
 //============================================================
-brasilis,194,221,6	duplicate(Healer)	ฟื้นฟูพลังชีวิต#bra	10301
-dewata,195,187,4	duplicate(Healer)	ฟื้นฟูพลังชีวิต#dew	10301
-dicastes01,201,194,4	duplicate(Healer)	ฟื้นฟูพลังชีวิต#dic	10301
-ecl_in01,45,60,4	duplicate(Healer)	ฟื้นฟูพลังชีวิต#ecl	10301
-malangdo,132,114,6	duplicate(Healer)	ฟื้นฟูพลังชีวิต#mal	10301
-malaya,227,204,6	duplicate(Healer)	ฟื้นฟูพลังชีวิต#ma	10301
-mora,55,152,4	duplicate(Healer)	ฟื้นฟูพลังชีวิต#mora	10301
+brasilis,194,221,6	duplicate(Healer)	ฟื้นฟูพลังชีวิต#bra	909
+dewata,195,187,4	duplicate(Healer)	ฟื้นฟูพลังชีวิต#dew	909
+dicastes01,201,194,4	duplicate(Healer)	ฟื้นฟูพลังชีวิต#dic	909
+ecl_in01,45,60,4	duplicate(Healer)	ฟื้นฟูพลังชีวิต#ecl	909
+malangdo,132,114,6	duplicate(Healer)	ฟื้นฟูพลังชีวิต#mal	909
+malaya,227,204,6	duplicate(Healer)	ฟื้นฟูพลังชีวิต#ma	909
+mora,55,152,4	duplicate(Healer)	ฟื้นฟูพลังชีวิต#mora	909
+
+//============================================================
+
+prontera,146,162,5	script	Premium Kafra#prt	4_F_KAFRA4,{
+
+    mes "[ Kafra ]";
+    mes "Which storage do you want to open?";
+    next;
+    switch(select("Normal Storage","Premium Storage","VIP Storage")) {
+        case 1:
+            mes "[ Kafra ]";
+            mes "Storage will be opened. Thank you";
+            close2;
+            openstorage;
+            break;
+        case 2:
+            mes "[ Kafra ]";
+            mes "Premium storage will be opened";
+            close2;
+            openstorage2(1,STOR_MODE_GET|STOR_MODE_PUT);
+            break;
+        case 3:
+            mes "[ Kafra ]";
+            mes "Premium storage will be opened";
+            close2;
+            openstorage2(2,STOR_MODE_GET|STOR_MODE_PUT);
+			break;
+
+   }
+	end;
+}
+//============================================================
+prontera,146,171,6	script	Gigler	402,{
+if( .Duration > gettimetick(2) ){
+	mes "The 2X Rate is Running right now.";
+	close;
+}
+mes "Welcome :";
+mes "Would you like to contribute for double drop rate and experience?";
+mes "I need [Zeny] to modify the rates and share it to all players here.";
+next;
+mes "Total Zeny Gained :";
+mes "^FF0000"+callfunc("F_InsertComma",.TotalZeny)+"^000000 Zeny.";
+mes "Need "+callfunc("F_InsertComma",.TargetZeny-.TotalZeny)+" Zeny. To Activate the modified rates, would you like to share?";
+next;
+if( select("Donate Zeny:Cancel") == 1 ){
+mes "How many will be Donated ?";
+mes "Need "+callfunc("F_InsertComma",.TargetZeny-.TotalZeny)+" Zeny. To Activate the modified rates, would you like to share?";
+next;
+input .@Amount,0,Zeny;
+mes "Done,.. you have Donated "+callfunc("F_InsertComma",.@Amount)+" Zeny.";
+set Zeny,Zeny - .@Amount;
+set .TotalZeny,.TotalZeny + .@Amount;
+if( .TotalZeny >= .TargetZeny ){
+	set .TotalZeny,0;
+	set .Duration,gettimetick(2) + ( 24 * 60 );
+	announce "Rates already modified..[x2] drop rate[x2] exp. rate. for 1 day, Please Re-Log to enjoy the double rates.",0;
+}
+}
+close;
+
+OnInit:
+set .TargetZeny,5000000;
+set .Rate,200;
+end;
+
+OnPCLoginEvent:
+if( .Duration > gettimetick(2) ){
+sc_start SC_EXPBOOST,(( .Duration - gettimetick(2) ) * 60000 ),( .Rate * 100 );
+sc_start SC_JEXPBOOST,(( .Duration - gettimetick(2) ) * 60000 ),( .Rate * 100 );
+sc_start SC_ITEMBOOST,(( .Duration - gettimetick(2) ) * 60000 ),( .Rate * 100 );
+}
+end;
+}
+
+//============================================================
+morocc,191,74,4	script	Rae Lil Black	4_F_GENETIC,{
+
+	.@Price  = 1500; //ราคาซื้อ ประดับ
+	.@charid = getcharid(0);
+	.@sender$ = "Rae Lil Black";
+	.@title$ = "Enlarge Booster";
+	.@body$ = "Hi! I'm a simple Poring from the Prontera fields! Welcome to Ragnarok!";
+	setarray .@mailitem[0], 0, 0, 65000, 0; // Healing, Healing, item, item
+	setarray .@mailamount[0], 10, 5, 1, 0; // จำนวนของ
+	setarray .@mailrefine[0], 0, 0, 0, 0; // ตีบวก
+	setarray .@mailbound[0], 0, 0, Bound_Account, Bound_Char; // Account bounded Hat, Char bounded Dagger
+	setarray .@mailcard0[0], 0, 0, 0, 0; // Attach Maya Purple Card to the Hat, Attach Skeleton Worker Card to Dagger
+	setarray .@mailcard1[0], 0, 0, 0, 0; // Attach Skeleton Worker Card to Dagger
+	setarray .@mailcard2[0], 0, 0, 0, 0; // Attach Skeleton Worker Card to Dagger
+
+	.upgid = 65000;	//ของเก่า
+	.upgidnew = 65001; 	//ของใหม่
+
+if (getskilllv("ALL_INCCARRY") == 13) {	
+	mes "[ Rae Lil Black ]"; 
+	mes "ฉันชอบคนที่มีกล้ามใหญ่ ๆ"; 
+	mes "ตอนนี้ฉันค้นพบวิธีที่จะช่วยให้เจ้า"; 
+	mes "สามารถแบกสิ่งของได้มากยิ่งขึ้น"; 
+	mes "เจ้าสนใจไหมละ"; 
+if (select("^0055FFสนใจสิ^000000:^777777ยกเลิก^000000") == 2)
+	end;
+next;
+	mes "[ Rae Lil Black ]"; 
+	mes "ข้าขอเสนอ <ITEM>"+getitemname(65000)+" <INFO>65000</INFO></ITEM> 1 ea"; 
+	mes "ให้เจ้าได้ไปลองใช้งานดู"; 
+	mes "ข้าคิดมันในราคา 1,500 Cash Point";
+next;
+if (#CASHPOINTS < .@Price){
+	mes "[ Rae Lil Black ]"; 
+	mes "เจ้าไม่มี Cash นิ"; 
+	end;
+}
+if (select("^0055FFจัดมาเลย^000000:^777777ยกเลิก^000000") == 2)
+	end;
+
+	mes "[ Rae Lil Black ]"; 
+	mes "โปรดตรวจสอบใน กล่อง จดหมาย ( RodEx ) ด้วย"; 
+	
+	set #CASHPOINTS,#CASHPOINTS -= .@Price;
+	getitem 65000,1;
+	end;
+}
+else if (getskilllv("ALL_INCCARRY") < 13){
+mes "[ Rae Lil Black ]"; 
+mes "ฉันชอบคนที่มีกล้ามใหญ่ ๆ"; 
+mes "ซึ่งเจ้าไม่มีคุณสมบัตินั้น"; 
+mes "[Skill]"; 
+mes "Enlarge Weight Limit Lv.13"; 
+end;
+}
+
+OnInit:
+waitingroom "Enlarge Booster",0;
+end;
+}
+
+morocc,181,58,4	script	Mr.MU	4_M_ARDHA,{
+
+	.@btc = 310400; //ราคาซื้อ Author's Autograph //แก้ทุกพุธ
+
+	mes .n$;
+	mes "ท่านมาหาข้าต้องการอะไร?";
+	next;
+	if(select("- ต้องการอัพเกรดเครื่องประดับใหม่:- Nevermind:") - 1) {
+		mes .n$;
+		mes "ได้... สิ, แล้วพบกันใหม่";
+		close;
+	}
+	mes .n$;
+	mes "ท่านต้องสวมประดับ  <ITEM>"+getitemname(65000)+" <INFO>65000</INFO></ITEM> ไว้ข้างขวา";
+	mes "หากท่านเป็นผู้ทำใหม่ หากท่านเป็นผู้ที่ทำอยู่แล้วให้สวมใส่ประดับขั้นล่าสุดที่ทำไว้ ด้านขวาเช่นกัน";
+	next;
+	if(select("- อัพเกรดเครื่องประดับ:- ซื้อใบ ^0000FF"+getitemname(7796)+"^000000:") - 1){
+		mes .n$;
+		mes "ได้... สิ, ข้าขายในราคา";
+		mes "^3355FF"+callfunc("F_InsertComma",.@btc)+" ^000000Zeny";
+		mes "เจ้าอยากได้กี่ใบดี กรอกตัวเลขเลย";
+		mes "กรอก 0 เพื่อ ยกเลิก";
+		next;
+		
+		input .@input;
+		if(.@input < 1) {
+		mes .n$;
+		mes "ได้... สิ, แล้วพบกันใหม่";
+		close;
+	}
+	if(.@input > 200) {
+		mes .n$;
+		mes "ได้... สิ, มันเยอะมากเลยนะนั้น 5 5 5+";
+		close;
+	}
+	if(Zeny<.@input*.@btc) {
+		mes .n$;
+		mes "เจ้ามีเงินไม่พอกับค่าของ";
+		mes "1 ^0000FF"+getitemname(7796)+"^000000 ราคา  ";
+		mes "^3355FF"+callfunc("F_InsertComma",.@btc)+" ^000000Zeny";
+		close;
+	}
+	if(checkweight(536,.@input) == 0) {
+		mes .n$;
+		mes "น้ำหนักมันเกินที่เจ้าจะเอามันกลับไปได้";
+		close;
+	}
+	set Zeny,Zeny-.@btc*.@input;
+	getitem 7796,.@input;	// Ice_Cream
+	if(.@input >= 200) {
+	announce "ผู้เล่น [ "+strcharinfo(0)+" ] ร่ำรวยมาก ได้ทำการซื้อ "+getitemname(7796)+" ไปจำนวน "+.@input+" อันเลย ",bc_all,0xff6347;
+}
+	close;
+	
+	}
+	mes .n$;
+	mes "ท่านต้องการให้ข้าอัพเกรดอะไรให้ท่าน?";
+	next;
+
+menu "1. - อัพเกรด ^0000FF"+getitemname(65000)+"^000000.",ex00,
+	"2. - อัพเกรด ^0000FF"+getitemname(65001)+"^000000.",ex01,
+	"3. - อัพเกรด ^0000FF"+getitemname(65002)+"^000000.",ex02,
+	"4. - อัพเกรด ^0000FF"+getitemname(65003)+"^000000.",ex03;
+
+
+ex00:	// 65001 Enlarge Booster Upg
+
+	set	.Itemid, 65001; 	//ของใหม่
+	set	.Itemid1, 65000;	//ของเก่า
+
+		mes .n$;
+		mes "ข้าขอเช็คเจ้าหน่อยว่าได้สวม <ITEM>"+getitemname(.Itemid1)+" <INFO>65000</INFO></ITEM> ไว้ข้างขวาหรือไม่ ...";
+		next;
+		mes .n$;
+		if(getequipid(EQI_ACC_R) != .Itemid1) {
+			mes "ท่านยังไม่ได้ทำการสวมใส ^FF0000<ITEM>"+getitemname(.Itemid1)+" <INFO>65000</INFO></ITEM> ^000000 มานิ.";
+			close;
+		}
+		disable_items;
+		set .@exc_id,.Itemid1; // Saving Excellion Suit ID for faster handling
+		set .@eq,EQI_ACC_R; // Resaving equipment slot
+		set .@ref,getequiprefinerycnt(EQI_ACC_R);
+		set .@slot1,getequipcardid(EQI_ACC_R,0);
+		set .@slot2,getequipcardid(EQI_ACC_R,1);
+		set .@slot3,getequipcardid(EQI_ACC_R,2);
+		set .@slot4,getequipcardid(EQI_ACC_R,3);
+		mes "Now choose the blueprint you want to enchant it with:";
+		next;
+		
+// Item Requirements + Amounts
+setarray .Item[0],
+	.Itemid1,1,
+	7054 ,100,
+	7004,150,
+	7796,3; //แทนเงิน
+
+   
+	mes n$;
+	mes "^FF0000ต้องการใช้  ^000000"+.Item[.@i + 1]+" x "+getitemname( .Item[.@i] );
+	mes "^0000FFเพื่อสร้าง ^000000 <ITEM>"+getitemname(.Itemid)+" <INFO>65001</INFO></ITEM> 1 ea";
+	mes "^FF0000 หากของไม่ครบกรุณาจดไว้ด้วย^000000";
+next; 
+  
+	for( set .@i,0; .@i < getarraysize( .Item ) - 1; set .@i,.@i + 2 )
+	if( countitem( .Item[.@i] ) < .Item[.@i + 1] ){
+		for( set .@i,0; .@i < getarraysize( .Item ) - 1; set .@i,.@i + 2 )
+
+	mes "^FF0000ต้องการใช้ ^000000 "+.Item[.@i + 1]+" x "+getitemname( .Item[.@i] );
+	mes "^0000FFเพื่อสร้าง ^000000 <ITEM>"+getitemname(.Itemid)+" <INFO>65001</INFO></ITEM> 1 ea";
+close;
+}
+
+if( select("^FF0000ยืนยันการแลกเปลี่ยน.^000000:Cancel") == 2 ) close;
+	for( set .@i,0; .@i < getarraysize( .Item ) - 1; set .@i,.@i + 2 )
+	delitem .Item[ .@i ],.Item[ .@i + 1 ];
+switch (rand (1,5))	{
+	case 1:
+	case 2:	
+	case 3:	
+	case 4:	
+	getitem2 .Itemid,1,1,.@ref,0,.@slot1,.@slot2,.@slot3,.@slot4;
+	equip .Itemid;
+	
+	mes .n$;
+	mes "^FF0000ทำการอัพเกรดใหม่สำเร็จแล้ว.^000000 ";
+	specialeffect2 3;
+	specialeffect2 154;
+	end;
+break;
+	case 5:
+	//delitem .Itemid1,1;
+	getitem2 .Itemid1,1,1,.@ref,0,.@slot1,.@slot2,.@slot3,.@slot4;
+	equip .Itemid1;
+	mes .n$;
+	mes "^FF0000ข้าเสียใจด้วยมันล้มเหลวในการอัพเกรดใหม่^000000 ";
+	specialeffect2 2;
+	specialeffect2 155;
+	end;
+break;	
+}
+
+ex01:	// 65002 Enlarge Booster Upg I
+
+set .Itemid,65002; 	//ของใหม่
+set .Itemid1,65001;	//ของเก่า
+
+		mes .n$;
+		mes "ข้าขอเช็คเจ้าหน่อยว่าได้สวม <ITEM>"+getitemname(.Itemid1)+" <INFO>65001</INFO></ITEM> ไว้ข้างขวาหรือไม่ ...";
+		next;
+		mes .n$;
+		if(getequipid(EQI_ACC_R) != .Itemid1) {
+			mes "ท่านยังไม่ได้ทำการสวมใส ^FF0000<ITEM>"+getitemname(.Itemid1)+" <INFO>65001</INFO></ITEM> ^000000 มานิ.";
+			close;
+		}
+		disable_items;
+		set .@exc_id,.Itemid1; // Saving Excellion Suit ID for faster handling
+		set .@eq,EQI_ACC_R; // Resaving equipment slot
+		set .@ref,getequiprefinerycnt(EQI_ACC_R);
+		set .@slot1,getequipcardid(EQI_ACC_R,0);
+		set .@slot2,getequipcardid(EQI_ACC_R,1);
+		set .@slot3,getequipcardid(EQI_ACC_R,2);
+		set .@slot4,getequipcardid(EQI_ACC_R,3);
+		mes "Now choose the blueprint you want to enchant it with:";
+		next;
+		
+// Item Requirements + Amounts
+setarray .Item[0],
+   .Itemid1,1,
+	621,5,
+	747,150,
+	7796,5; //แทนเงิน
+
+   
+	mes n$;
+	mes "^FF0000ต้องการใช้  ^000000"+.Item[.@i + 1]+" x "+getitemname( .Item[.@i] );
+	mes "^0000FFเพื่อสร้าง ^000000 <ITEM>"+getitemname(.Itemid)+" <INFO>65002</INFO></ITEM> 1 ea";
+	mes "^FF0000 หากของไม่ครบกรุณาจดไว้ด้วย^000000";
+next; 
+  
+	for( set .@i,0; .@i < getarraysize( .Item ) - 1; set .@i,.@i + 2 )
+	if( countitem( .Item[.@i] ) < .Item[.@i + 1] ){
+		for( set .@i,0; .@i < getarraysize( .Item ) - 1; set .@i,.@i + 2 )
+
+	mes "^FF0000ต้องการใช้  ^000000"+.Item[.@i + 1]+" x "+getitemname( .Item[.@i] );
+	mes "^0000FFเพื่อสร้าง ^000000 <ITEM>"+getitemname(.Itemid)+" <INFO>65002</INFO></ITEM> 1 ea";
+close;
+}
+
+if( select("^FF0000ยืนยันการแลกเปลี่ยน.^000000:Cancel") == 2 ) close;
+	for( set .@i,0; .@i < getarraysize( .Item ) - 1; set .@i,.@i + 2 )
+	delitem .Item[ .@i ],.Item[ .@i + 1 ];
+switch (rand (1,5))	{
+	case 1:	
+	case 2:	
+	getitem2 .Itemid,1,1,.@ref,0,.@slot1,.@slot2,.@slot3,.@slot4;
+	equip .Itemid;
+	
+	mes .n$;
+	mes "^FF0000ทำการอัพเกรดใหม่สำเร็จแล้ว.^000000 ";
+	specialeffect2 3;
+	specialeffect2 154;
+	end;
+break;
+	case 3:	
+	case 4:
+	case 5:
+	//delitem .Itemid1,1;
+	getitem2 .Itemid1,1,1,.@ref,0,.@slot1,.@slot2,.@slot3,.@slot4;
+	equip .Itemid1;
+	mes .n$;
+	mes "^FF0000ข้าเสียใจด้วยมันล้มเหลวในการอัพเกรดใหม่^000000 ";
+	specialeffect2 2;
+	specialeffect2 155;
+	end;
+break;	
+}
+
+ex02:	// 65003 Enlarge Booster Upg II
+
+set .Itemid,65003; 	//ของใหม่
+set .Itemid1,65002;	//ของเก่า
+
+		mes .n$;
+		mes "ข้าขอเช็คเจ้าหน่อยว่าได้สวม <ITEM>"+getitemname(.Itemid1)+" <INFO>65002</INFO></ITEM> ไว้ข้างขวาหรือไม่ ...";
+		next;
+		mes .n$;
+		if(getequipid(EQI_ACC_R) != .Itemid1) {
+			mes "ท่านยังไม่ได้ทำการสวมใส ^FF0000<ITEM>"+getitemname(.Itemid1)+" <INFO>65002</INFO></ITEM> ^000000 มานิ.";
+			close;
+		}
+		disable_items;
+		set .@exc_id,.Itemid1; // Saving Excellion Suit ID for faster handling
+		set .@eq,EQI_ACC_R; // Resaving equipment slot
+		set .@ref,getequiprefinerycnt(EQI_ACC_R);
+		set .@slot1,getequipcardid(EQI_ACC_R,0);
+		set .@slot2,getequipcardid(EQI_ACC_R,1);
+		set .@slot3,getequipcardid(EQI_ACC_R,2);
+		set .@slot4,getequipcardid(EQI_ACC_R,3);
+		mes "Now choose the blueprint you want to enchant it with:";
+		next;
+		
+// Item Requirements + Amounts
+setarray .Item[0],
+   .Itemid1,1,
+	7223,130,
+	7005,300,
+	7796,7; //แทนเงิน
+
+   
+	mes n$;
+	mes "^FF0000ต้องการใช้  ^000000"+.Item[.@i + 1]+" x "+getitemname( .Item[.@i] );
+	mes "^0000FFเพื่อสร้าง ^000000 <ITEM>"+getitemname(.Itemid)+" <INFO>65003</INFO></ITEM> 1 ea";
+	mes "^FF0000 หากของไม่ครบกรุณาจดไว้ด้วย^000000";
+next; 
+  
+	for( set .@i,0; .@i < getarraysize( .Item ) - 1; set .@i,.@i + 2 )
+	if( countitem( .Item[.@i] ) < .Item[.@i + 1] ){
+		for( set .@i,0; .@i < getarraysize( .Item ) - 1; set .@i,.@i + 2 )
+
+	mes "^FF0000ต้องการใช้  ^000000"+.Item[.@i + 1]+" x "+getitemname( .Item[.@i] );
+	mes "^0000FFเพื่อสร้าง ^000000 <ITEM>"+getitemname(.Itemid)+" <INFO>65003</INFO></ITEM> 1 ea";
+close;
+}
+
+if( select("^FF0000ยืนยันการแลกเปลี่ยน.^000000:Cancel") == 2 ) close;
+	for( set .@i,0; .@i < getarraysize( .Item ) - 1; set .@i,.@i + 2 )
+	delitem .Item[ .@i ],.Item[ .@i + 1 ];
+switch (rand (1,5))	{
+	case 1:	
+	case 2:	
+	getitem2 .Itemid,1,1,.@ref,0,.@slot1,.@slot2,.@slot3,.@slot4;
+	equip .Itemid;
+	
+	mes .n$;
+	mes "^FF0000ทำการอัพเกรดใหม่สำเร็จแล้ว.^000000 ";
+	specialeffect2 3;
+	specialeffect2 154;
+	end;
+break;
+	case 3:	
+	case 4:	
+	case 5:	
+	//delitem .Itemid1,1;
+	getitem2 .Itemid1,1,1,.@ref,0,.@slot1,.@slot2,.@slot3,.@slot4;
+	equip .Itemid1;
+	mes .n$;
+	mes "^FF0000ข้าเสียใจด้วยมันล้มเหลวในการอัพเกรดใหม่^000000 ";
+	specialeffect2 2;
+	specialeffect2 155;
+	end;
+break;	
+}
+
+ex03:	// 65004 Enlarge Booster Upg III
+
+set .Itemid,65004; 	//ของใหม่
+set .Itemid1,65003;	//ของเก่า
+
+		mes .n$;
+		mes "ข้าขอเช็คเจ้าหน่อยว่าได้สวม <ITEM>"+getitemname(.Itemid1)+" <INFO>65003</INFO></ITEM> ไว้ข้างขวาหรือไม่ ...";
+		next;
+		mes .n$;
+		if(getequipid(EQI_ACC_R) != .Itemid1) {
+			mes "ท่านยังไม่ได้ทำการสวมใส ^FF0000<ITEM>"+getitemname(.Itemid1)+" <INFO>65003</INFO></ITEM> ^000000 มานิ.";
+			close;
+		}
+		disable_items;
+		set .@exc_id,.Itemid1; // Saving Excellion Suit ID for faster handling
+		set .@eq,EQI_ACC_R; // Resaving equipment slot
+		set .@ref,getequiprefinerycnt(EQI_ACC_R);
+		set .@slot1,getequipcardid(EQI_ACC_R,0);
+		set .@slot2,getequipcardid(EQI_ACC_R,1);
+		set .@slot3,getequipcardid(EQI_ACC_R,2);
+		set .@slot4,getequipcardid(EQI_ACC_R,3);
+		mes "Now choose the blueprint you want to enchant it with:";
+		next;
+		
+// Item Requirements + Amounts
+setarray .Item[0],
+	.Itemid1,1,
+	984,30,
+	985,30,
+	909,300,
+	7796,10;
+
+	
+	mes n$;
+	mes "^FF0000ต้องการใช้  ^000000"+.Item[.@i + 1]+" x "+getitemname( .Item[.@i] );
+	mes "^0000FFเพื่อสร้าง ^000000 <ITEM>"+getitemname(.Itemid)+" <INFO>65004</INFO></ITEM> 1 ea";
+	mes "^FF0000 หากของไม่ครบกรุณาจดไว้ด้วย^000000";
+next; 
+  
+	for( set .@i,0; .@i < getarraysize( .Item ) - 1; set .@i,.@i + 2 )
+	if( countitem( .Item[.@i] ) < .Item[.@i + 1] ){
+		for( set .@i,0; .@i < getarraysize( .Item ) - 1; set .@i,.@i + 2 )
+
+	mes "^FF0000ต้องการใช้  ^000000"+.Item[.@i + 1]+" x "+getitemname( .Item[.@i] );
+	mes "^0000FFเพื่อสร้าง ^000000 <ITEM>"+getitemname(.Itemid)+" <INFO>65004</INFO></ITEM> 1 ea";
+close;
+}
+
+if( select("^FF0000ยืนยันการแลกเปลี่ยน.^000000:Cancel") == 2 ) close;
+	for( set .@i,0; .@i < getarraysize( .Item ) - 1; set .@i,.@i + 2 )
+	delitem .Item[ .@i ],.Item[ .@i + 1 ];
+switch (rand (1,5))	{
+	case 1:	
+	getitem2 .Itemid,1,1,.@ref,0,.@slot1,.@slot2,.@slot3,.@slot4;
+	equip .Itemid;
+	
+	mes .n$;
+	mes "^FF0000ทำการอัพเกรดใหม่สำเร็จแล้ว.^000000 ";
+	specialeffect2 3;
+	specialeffect2 154;
+	announce "ผู้เล่น [ "+strcharinfo(0)+" ] ได้ทำการพิชิต "+getitemname(.Itemid)+" ได้แล้วช่างโหดจริง ๆ ",bc_all,0x^FF8040,500,30;
+	end;
+break;
+	case 2:
+	case 3:
+	case 4:
+	case 5:
+	//delitem .Itemid1,1;
+	getitem2 .Itemid1,1,1,.@ref,0,.@slot1,.@slot2,.@slot3,.@slot4;
+	equip .Itemid1;
+	
+	mes .n$;
+	mes "^FF0000ข้าเสียใจด้วยมันล้มเหลวในการอัพเกรดใหม่^000000 ";
+	specialeffect2 2;
+	specialeffect2 155;
+	end;
+break;	
+}
+
+
+
+enable_items;
+end;
+
+OnInit:
+set .n$,"["+strnpcinfo(0)+"]";
+waitingroom "อัพเกรดเครื่องประดับ ",0;
+end;
+}

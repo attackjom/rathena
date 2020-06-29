@@ -16,7 +16,7 @@
 //Translated & Modified by Start (Discord ID: Start#1356)
 
 
-prontera,163,175,3	script	Reset Stats & Skills	10295,{
+prontera,150,193,4	script	Reset Stats & Skills	124,{
 	//	 		Skills,	Stats,	Both,	Limit
 	setarray .@Reset,	5000,	5000,	9000,	0;
 	if(.@Reset[3] && reset_limit > .@Reset[3]) {
@@ -47,8 +47,4 @@ prontera,163,175,3	script	Reset Stats & Skills	10295,{
 	mes "เรียบร้อย!";
 	if(.@Reset[3]) set reset_limit,reset_limit + 1;
 	close;
-	
-OnInit:
-	waitingroom "Reset Stats & Skills",0;
-	end;
 }

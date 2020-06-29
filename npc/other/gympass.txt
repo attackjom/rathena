@@ -46,14 +46,14 @@ payon,173,141,4	script	Ripped Cabus#GymPass	899,{
 	mes "I'd say that it'd be safe";
 	mes "for you to seriously train";
 	mes "with me and increase your";
-	mes "item carrying capacity ^FF000010 times^000000.";
+	mes "item carrying capacity ^FF000013 times^000000.";
 	mes "So... Are you ready to sweat?";
 	next;
 	switch(select("Yes:No:Um, my workouts wore off.")) {
 	case 1:
-		if (gympassmemory < 10) {
+		if (gympassmemory < 13) {
 			set .@add_carry,gympassmemory + 1;
-			set .@remain_carry,10 - .@add_carry;
+			set .@remain_carry,13 - .@add_carry;
 			if (countitem(7776) > 0) {
 				mes "[Ripped]";
 				mes "Oh, awesome, I see you";

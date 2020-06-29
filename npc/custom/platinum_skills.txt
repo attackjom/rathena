@@ -21,7 +21,7 @@
 //Translated & Modified by Start (Discord ID: Start#1356)
 
 
-prontera,148,171,6	script	รับสกิลเสริม	10298,{
+prontera,128,200,6	script	รับสกิลเสริม	94,{
 	mes "ต้องการสกิลเสริมหรือไม่?";
 	next;
 	if (select("ต้องการ:ยกเลิก") == 2) {
@@ -31,8 +31,4 @@ prontera,148,171,6	script	รับสกิลเสริม	10298,{
 	callfunc "F_GetPlatinumSkills";
 	mes "เรียบร้อย!";
 	close;
-	
-OnInit:
-	waitingroom "รับสกิลเสริม",0;
-	end;
 }
