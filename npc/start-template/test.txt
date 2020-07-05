@@ -1,5 +1,4 @@
 -	script	Test	-1,{
-	#KAFRAPOINTS += 100;
 	end;
 }
 
