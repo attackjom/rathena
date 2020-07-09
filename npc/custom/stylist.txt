@@ -24,7 +24,7 @@ prontera,170,180,1	script	Stylist#custom_stylist	122,{
 	setarray .@Look[1],LOOK_CLOTHES_COLOR,LOOK_HAIR,LOOK_HAIR_COLOR;
 	.@s = select(" ~ สีเสื้อ: ~ ทรงผม: ~ สีผม");
 	.@Revert = getlook(.@Look[.@s]);
-	if(.@s==2)
+	if(.@s == 2)
 	.@Style = 1;
 	else
 	.@Style = 0;
@@ -35,11 +35,11 @@ prontera,170,180,1	script	Stylist#custom_stylist	122,{
 		switch(select(.@menu$)) {
 		case 1:
 			.@Style = ((.@Style != .@Styles[.@s]) ? .@Style+1 : 0);
-			if(.@s==2&&.@Style <= 0)
+			if(.@s == 2 && .@Style <= 0)
 			.@Style = 1;
 			break;
 		case 2:
-			.@Style = (((.@s==2&&.@Style != 1) || (.@s!=2&&.@Style != 0)) ? .@Style-1 : .@Styles[.@s]);
+			.@Style = (((.@s == 2 && .@Style != 1) || (.@s != 2 && .@Style != 0)) ? .@Style - 1 : .@Styles[.@s]);
 			break;
 		case 3:
 			message strcharinfo(0),"เลือกสไตล์ระหว่าง 0 - " + .@Styles[.@s];
