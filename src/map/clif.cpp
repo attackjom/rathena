@@ -21727,6 +21727,7 @@ void clif_refineui_info( struct map_session_data* sd, uint16 index ){
 	int fd = sd->fd;
 	struct item *item;
 	struct item_data *id;
+
 	struct refine_materials materials[REFINEUI_MAT_CNT];
 	uint8 material_count;
 
@@ -21831,11 +21832,11 @@ void clif_parse_refineui_refine( int fd, struct map_session_data* sd ){
 	struct PACKET_CZ_REFINE_ITEM_REQUEST* p = (struct PACKET_CZ_REFINE_ITEM_REQUEST*)RFIFOP( fd, 0 );
 
 	uint16 index = server_index( p->index );
-	uint32 material = p->itemId;
+	uint16 material = p->itemId;
 	bool use_blacksmith_blessing = p->blacksmithBlessing != 0;
 	struct refine_materials materials[REFINEUI_MAT_CNT];
 	uint8 i, material_count;
-	uint32 j;
+	uint16 j;
 	struct item *item;
 	struct item_data *id;
 

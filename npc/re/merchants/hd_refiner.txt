@@ -18,61 +18,61 @@
 -	script	::MightyHammer	-1,{
 	disable_items;
 	mes "[Blacksmith Mighty Hammer]";
-	mes "๏ฟฝ๏ฟฝาค๏ฟฝอช๏ฟฝาง๏ฟฝีบวก๏ฟฝ๏ฟฝ๏ฟฝำกัด๏ฟฝำนวนในก๏ฟฝรตีบวก.";
-	mes "๏ฟฝยข๏ฟฝาจะตีบวกเฉพ๏ฟฝ๏ฟฝ ^CC0000+7 ๏ฟฝึง +9^000000 ๏ฟฝ๏ฟฝาน๏ฟฝ๏ฟฝ.";
+	mes "ข้าคือช่างตีบวกที่จำกัดจำนวนในการตีบวก.";
+	mes "โดยข้าจะตีบวกเฉพาะ ^CC0000+7 ถึง +9^000000 เท่านั้น.";
 	next;
 	mes "[Blacksmith Mighty Hammer]";
-	mes "๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝรถ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝษของ๏ฟฝ๏ฟฝาค๏ฟฝอถ๏ฟฝาข๏ฟฝาตีบวก๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ, ๏ฟฝ๏ฟฝาบวก๏ฟฝ๏ฟฝลดลง 1 ๏ฟฝยท๏ฟฝ๏ฟฝอง๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ. ๏ฟฝ๋งป๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ ?";
+	mes "ความสามารถพิเศษของข้าคือถ้าข้าตีบวกล้มเหลว, ค่าบวกจะลดลง 1 โดยที่ของไม่หาย. เจ๋งป่ะล่ะ ?";
 	next;
 	mes "[Blacksmith Mighty Hammer]";
-	mes "๏ฟฝัง๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝาทำต๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ, ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝอก๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝาก๏ฟฝะตีบวก ?";
+	mes "ดังนั้นเจ้าอย่าทำตัวใจเสาะ, จงเลือกไอเท็มที่เจ้าอยากจะตีบวก ?";
 	next;
 	setarray .@indices[1], EQI_HEAD_TOP, EQI_ARMOR, EQI_HAND_L, EQI_HAND_R, EQI_GARMENT, EQI_SHOES, EQI_ACC_L, EQI_ACC_R, EQI_HEAD_MID, EQI_HEAD_LOW;
 	for ( .@i = 1; .@i <= 10; ++.@i )
-		.@menu$ = .@menu$ + ( getequipisequiped(.@indices[.@i]) ? getequipname(.@indices[.@i]) : F_getpositionname(.@indices[.@i]) + "-[Not equipped]" ) + ":";
+		.@menu$ = .@menu$ + ( getequipisequiped(.@indices[.@i]) ? getequipname(.@indices[.@i]) : F_getpositionname(.@indices[.@i]) + "-[ไม่ได้สวมใส่]" ) + ":";
 	.@part = .@indices[ select(.@menu$) ];
 	if (!getequipisequiped(.@part)) {
 		mes "[Blacksmith Mighty Hammer]";
 		switch(.@part) {
 		case EQI_HEAD_TOP:
-			mes "๏ฟฝ๏ฟฝาค๏ฟฝอช๏ฟฝาง๏ฟฝีบวก, ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝาง๏ฟฝัด๏ฟฝ๏ฟฝ.";
+			mes "ข้าคือช่างตีบวก, ไม่ใช่ช่างตัดผม.";
 			break;
 		case EQI_ARMOR:
-			mes "๏ฟฝ๏ฟฝอน๏ฟฝ๏ฟฝ๏ฟฝอข๏ฟฝ๏ฟฝ, ๏ฟฝะท๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ็นด๏ฟฝวบ๏ฟฝ๏ฟฝ๏ฟฝอง๏ฟฝ๏ฟฝ๏ฟฝ.";
+			mes "ค้อนในมือข้า, จะทำให้เจ้าเห็นดาวบนท้องฟ้า.";
 			break;
 		case EQI_HAND_L:
 		case EQI_HAND_R:
-			mes "๏ฟฝ๏ฟฝรท๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝรถ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝษของ๏ฟฝ๏ฟฝ๏ฟฝ.";
+			mes "การทำมือเทียมไม่ใช่ความสามารถพิเศษของข้า.";
 			break;
 		case EQI_GARMENT:
-			mes "๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝาด๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ้นข๏ฟฝาจะตีบวก๏ฟฝัง๏ฟฝ!";
+			mes "ใส่ไอเท็มมาด้วยไม่งั้นข้าจะตีบวกยังไง!";
 			break;
 		case EQI_SHOES:
-			mes "๏ฟฝอง๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝหน ?";
+			mes "รองเท้าเจ้าอยู่ไหน ?";
 			break;
 		case EQI_ACC_L:
 		case EQI_ACC_R:
-			mes "๏ฟฝหน๏ฟฝ๏ฟฝ ๏ฟฝ๏ฟฝะดับ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ ?";
+			mes "ไหนละ ประดับไม่เห็นมี ?";
 			break;
 		case EQI_HEAD_MID:
-			mes "๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝาก๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝาตีบวก๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ ?";
+			mes "เจ้าอยากให้ข้าตีบวกอะไร ?";
 			break;
 		case EQI_HEAD_LOW:
-			mes "๏ฟฝ๏ฟฝ ? ๏ฟฝ๏ฟฝาต๏ฟฝอง๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝรจาก๏ฟฝ๏ฟฝ๏ฟฝ ?";
+			mes "หึ ? เจ้าต้องการอะไรจากข้า ?";
 			break;
 		}
 		close;
 	}
 	if (!getequipisenableref(.@part)) {
 		mes "[Blacksmith Mighty Hammer]";
-		mes "๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝีบวก๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ.";
+		mes "ไอเท็มนี้ตีบวกไม่ได้.";
 		close;
 	}
 	.@weapon_lvl = getequipweaponlv(.@part);
 	.@bb = getblacksmithblessing(.@weapon_lvl,.@refine_count);
 	if (!.@bb) {
 		mes "[Blacksmith Mighty Hammer]";
-		mes "๏ฟฝ๏ฟฝาตีบวกเฉพ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ +7 ๏ฟฝึง +9 ๏ฟฝ๏ฟฝาน๏ฟฝ๏ฟฝ.";
+		mes "ข้าตีบวกเฉพาะไอเท็ม +7 ถึง +9 เท่านั้น.";
 		close;
 	}
 
@@ -83,34 +83,34 @@
 	.@material = getequiprefinecost(.@part, REFINE_COST_HD, REFINE_MATERIAL_ID);
 
 	mes "[Blacksmith Mighty Hammer]";
-	mes "In order to refine the gear you selected you need ^ff9999" + getitemname(.@material) + "^000000 and 20,000 zeny as a fee.";
-	mes "Do you have them ready?";
+	mes "ในการตีบวก ข้าต้องการ ^ff9999" + getitemname(.@material) + "^000000 และ 20,000 zeny เป็นค่าบริการ.";
+	mes "เจ้าพร้อมที่จะตีบวกยัง ?";
 	next;
-	if (select("Yes:No") == 2) {
+	if(select("ใช่:ไม่") == 2) {
 		mes "[Blacksmith Mighty Hammer]";
-		mes "๏ฟฝ๏ฟฝาจ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝัน๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝาพ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ.";
+		mes "ข้าจะรอวันที่เจ้าพร้อม.";
 		close;
 	}
 	if (getequippercentrefinery(.@part, REFINE_COST_HD) < 100) {
 		mes "[Blacksmith Mighty Hammer]";
-		mes "๏ฟฝัน๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝอน๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ้นน๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝาตีบวก๏ฟฝ๏ฟฝ๏ฟฝ.";
-		mes "๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝอง๏ฟฝัง๏ฟฝ๏ฟฝ๏ฟฝ ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝัน๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ, ๏ฟฝ๏ฟฝาตีบวก๏ฟฝ๏ฟฝลดลง๏ฟฝ๏ฟฝ 1 ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ.";
-		mes "๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝาก๏ฟฝีบวก๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ ?";
+		mes "มันดูเหมือนว่าไอเท็มชิ้นนี้จะล้มเหลวได้ถ้าตีบวกต่อ.";
+		mes "ไม่ต้องกังวลไป ถ้ามันล้มเหลว, ค่าตีบวกจะลดลงแค่ 1 เลเวล.";
+		mes "เจ้าอยากตีบวกต่อไหม ?";
 		next;
 		if (countitem(.@refinebb[0]) < .@refinebb[1])
-			setarray .@menu$[1], "Yes", "Not yet";
+			setarray .@menu$[1], "ใช่", "ไม่";
 		else {
 			mes "[Blacksmith Mighty Hammer]";
-			mes "Ah! is it the ^0000ffBlacksmith Blessing^000000?";
-			mes "With the Blacksmith Blessing, the equipment won't vanish if the refine is failed!";
+			mes "Ah! ^0000ffBlacksmith Blessing^000000?";
+			mes "ด้วยพรของช่างตีเหล็กอุปกรณ์จะไม่หายไปหากการปรับแต่งล้มเหลว!";
 			next;
 			mes "[Blacksmith Mighty Hammer]";
 			if (.@weapon_lvl < 1 || .@weapon_lvl > 4)
-				mes "For +" + getequiprefinerycnt(.@part) + " equipment, refine with^316AC5 " + .@refinebb[1] + " unit(s) Blacksmith Blessing^000000 can prevent the equipment to be vanished. Do you want use it to refine?";
+				mes "สำหรับ +" + getequiprefinerycnt(.@part) + " อุปกรณ์, ตีบวกด้วย^316AC5 " + .@refinebb[1] + " unit(s) Blacksmith Blessing^000000 สามารถป้องกันไม่ให้อุปกรณ์เสียหายได้คุณต้องการใช้หรือไม่ เพื่อตีบวก?";
 			else
-				mes "For +" + getequiprefinerycnt(.@part) + " weapon, refine with^316AC5 " + .@refinebb[1] + " unit(s) Blacksmith Blessing^000000 can prevent the equipment to be vanished. Do you want use it to refine?";
+				mes "สำหรับ +" + getequiprefinerycnt(.@part) + " อาวุธ, ตีบวกด้วย^316AC5 " + .@refinebb[1] + " unit(s) Blacksmith Blessing^000000 สามารถป้องกันไม่ให้อุปกรณ์เสียหายได้คุณต้องการใช้หรือไม่ เพื่อตีบวก?";
 			next;
-			setarray .@menu$[0], "Use it to refine", "Refine directly without it", "Don't refine yet";
+			setarray .@menu$[0], "ใช้เพื่อตีบวก","ตีบวกโดยตรงโดยไม่ใช้มัน","ไม่ตีบวกแล้ว";
 		}
 		switch( select(.@menu$[0], .@menu$[1], .@menu$[2]) ) {
 		case 1:
@@ -120,28 +120,13 @@
 			break;
 		case 3:
 			mes "[Blacksmith Mighty Hammer]";
-			if (.@weapon_lvl < 1 || .@weapon_lvl > 4)
-				mes "๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝับ +" + getequiprefinerycnt(.@part) + " ๏ฟฝุป๏ฟฝรณ๏ฟฝ, ๏ฟฝีบวก๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ^316AC5 " + .@refinebb[1] + " unit(s) Blacksmith Blessing^000000 ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝรถ๏ฟฝ๏ฟฝอง๏ฟฝัน๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝุป๏ฟฝรณ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝุณ๏ฟฝ๏ฟฝอง๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ ๏ฟฝ๏ฟฝ๏ฟฝอตีบวก?";
-			else
-				mes "๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝับ +" + getequiprefinerycnt(.@part) + " ๏ฟฝ๏ฟฝ๏ฟฝุธ, ๏ฟฝีบวก๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ^316AC5 " + .@refinebb[1] + " unit(s) Blacksmith Blessing^000000 ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝรถ๏ฟฝ๏ฟฝอง๏ฟฝัน๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝุป๏ฟฝรณ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝุณ๏ฟฝ๏ฟฝอง๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ ๏ฟฝ๏ฟฝ๏ฟฝอตีบวก?";
-			next;
-			setarray .@menu$[0], "๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝอตีบวก","๏ฟฝีบวก๏ฟฝยตรง๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝัน","๏ฟฝ๏ฟฝ๏ฟฝีบวก๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ";
-		}
-		switch( select(.@menu$[0], .@menu$[1], .@menu$[2]) ) {
-		case 1:
-			.@bless_who = 1;
-			break;
-		case 2:
-			break;
-		case 3:
-			mes "[Blacksmith Mighty Hammer]";
-			mes "เฉพ๏ฟฝะผ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝาช๏ฟฝะค๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝวค๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝาน๏ฟฝ้นท๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝับ๏ฟฝลงาน๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝอก";
+			mes "เฉพาะผู้ที่เอาชนะความกลัวความล้มเหลวเท่านั้นที่จะได้รับผลงานชิ้นเอก";
 			close;
 		}
 	}
 	if ((.@bless_who && countitem(.@refinebb[0]) < .@refinebb[1]) || countitem(.@material) == 0 || Zeny < .@price) {
 		mes "[Blacksmith Mighty Hammer]";
-		mes "๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝีของ๏ฟฝ๏ฟฝ๏ฟฝรบ ?";
+		mes "เจ้ามีของไม่ครบ ?";
 		close;
 	}
 	if (.@bless_who)
@@ -154,21 +139,21 @@
 		callfunc("F_IsEquipRefineHack", .@part, .@refinerycnt)) {
 		mes "[Blacksmith Mighty Hammer]";
 		emotion ET_FRET;
-		mes "๏ฟฝ๏ฟฝหน๏ฟฝ่งน๏ฟฝ๏ฟฝ...";
-		mes "๏ฟฝ๏ฟฝาคิด๏ฟฝ๏ฟฝาข๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ ?!";
-		mes "๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝอบ๏ฟฝ๏ฟฝับ๏ฟฝอง๏ฟฝอน๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ! ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝหน๏ฟฝาซ๏ฟฝ!";
+		mes "แป็ปหนึ่งน่ะ...";
+		mes "เจ้าคิดว่าข้าโง่หรอ ?!";
+		mes "เจ้าแอบสลับของตอนข้าเผลอ! ไปให้พ้นหน้าซะ!";
 		close;
 	}
 
 	mes "[Blacksmith Mighty Hammer]";
-	mes "Tac! Tac! Tac!";
+	mes "ก็อง! ก็อง! ก็อง!";
 	if (getequippercentrefinery(.@part, REFINE_COST_HD) > rand(100)) {
 		successrefitem .@part;
 		next;
 		emotion ET_BEST;
 		mes "[Blacksmith Mighty Hammer]";
-		mes "๏ฟฝัน๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝยง๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝาช๏ฟฝ๏ฟฝใจทุก๏ฟฝ๏ฟฝ๏ฟฝ้งท๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝิน.";
-		mes "๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ, ๏ฟฝัน๏ฟฝีบวก๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ็จด๏ฟฝ๏ฟฝยด๏ฟฝ!";
+		mes "มันเป็นเสียงที่ทำให้ข้าชื่นใจทุกครั้งที่ได้ยิน.";
+		mes "เอาไป, มันตีบวกสำเร็จด้วยดี!";
 		close;
 	}
 	if (.@bless_who == 1) {
@@ -176,31 +161,20 @@
 		next;
 		emotion ET_HUK;
 		mes "[Blacksmith Mighty Hammer]";
-		mes "๏ฟฝ๏ฟฝ๏ฟฝรน๏ฟฝ !!";
+		mes "อะไรนะ !!";
 		next;
 		mes "[Blacksmith Mighty Hammer]";
-		mes "Aiya! ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝรถ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝวตอน๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ .... ";
-		close;
-	}
-	if (.@bless_who == 1) {
-		specialeffect EF_HOLYHIT;
-		next;
-		emotion ET_HUK;
-		mes "[Blacksmith Mighty Hammer]";
-		mes "What?!!";
-		next;
-		mes "[Blacksmith Mighty Hammer]";
-		mes "Aiya! I am faceless now. HmHm.";
+		mes "Aiya! ข้าไม่สามารถทำอะไรได้แล้วตอนนี้อืม .... ";
 		close;
 	}
 	downrefitem .@part;
 	next;
 	emotion ET_HUK;
 	mes "[Blacksmith Mighty Hammer]";
-	mes "๏ฟฝุบ๏ฟฝ๏ฟฝ!!";
+	mes "อุบส์!!";
 	next;
 	mes "[Blacksmith Mighty Hammer]";
-	mes "๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝอบ ๏ฟฝ๏ฟฝ๏ฟฝันลด๏ฟฝ 1 ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝลก๏ฟฝรตีบวก๏ฟฝ๏ฟฝ๏ฟฝ.";
+	mes "ข้ารู้ว่าเจ้าไม่ชอบ แต่มันลดไป 1 เลเวลการตีบวกอ่ะ.";
 	close;
 }
 prt_in,59,54,3	duplicate(MightyHammer)	Mighty Hammer#prt	4_M_DWARF
@@ -219,65 +193,65 @@ lhz_in02,280,19,3	duplicate(MightyHammer)	Mighty Hammer#lhz	4_M_DWARF
 -	script	::Basta	-1,{
 	disable_items;
 	mes "[Basta]";
-	mes "๏ฟฝ๏ฟฝาค๏ฟฝอช๏ฟฝาง๏ฟฝีบวก๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ่งท๏ฟฝ๏ฟฝ๏ฟฝุด๏ฟฝ๏ฟฝลก, ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ Basta.";
-	mes "๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝีบวก๏ฟฝอง๏ฟฝาด๏ฟฝ ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ.";
-	mes "๏ฟฝ๏ฟฝ๏ฟฝาตีบวกเฉพ๏ฟฝะของ ^CC0000๏ฟฝ๏ฟฝ๏ฟฝวก๏ฟฝิน +10^000000 ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝาน๏ฟฝ๏ฟฝ.";
+	mes "ข้าคือช่างตีบวกที่เก่งที่สุดในโลก, นามว่า Basta.";
+	mes "ข้าไม่ตีบวกของดาดๆ ทั่วไป.";
+	mes "แต่ข้าตีบวกเฉพาะของ ^CC0000ที่บวกเกิน +10^000000 ขึ้นไปเท่านั้น.";
 	next;
 	mes "[Basta]";
-	mes "๏ฟฝอง๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝหน๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝาก๏ฟฝะตีบวก ?";
+	mes "ของชิ้นไหนที่เจ้าอยากจะตีบวก ?";
 	next;
 	setarray .@indices[1], EQI_HEAD_TOP, EQI_ARMOR, EQI_HAND_L, EQI_HAND_R, EQI_GARMENT, EQI_SHOES, EQI_ACC_L, EQI_ACC_R, EQI_HEAD_MID, EQI_HEAD_LOW;
 	for ( .@i = 1; .@i <= 10; ++.@i )
-		.@menu$ = .@menu$ + ( getequipisequiped(.@indices[.@i]) ? getequipname(.@indices[.@i]) : F_getpositionname(.@indices[.@i]) + "-[Unequipped]" ) + ":";
+		.@menu$ = .@menu$ + ( getequipisequiped(.@indices[.@i]) ? getequipname(.@indices[.@i]) : F_getpositionname(.@indices[.@i]) + "-[ไม่ได้สวมใส่]" ) + ":";
 	.@part = .@indices[ select(.@menu$) ];
 	if (!getequipisequiped(.@part)) {
 		mes "[Basta]";
 		switch(.@part) {
 		case EQI_HEAD_TOP:
-			mes "๏ฟฝ๏ฟฝาก๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝแทน๏ฟฝ๏ฟฝ๏ฟฝ ?";
+			mes "อยากให้ตีหัวเจ้าแทนหรอ ?";
 			break;
 		case EQI_ARMOR:
-			mes "๏ฟฝ๏ฟฝาต๏ฟฝอง๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝรจาก๏ฟฝ๏ฟฝ๏ฟฝ ?";
+			mes "เจ้าต้องการอะไรจากข้า ?";
 			break;
 		case EQI_HAND_L:
 		case EQI_HAND_R:
-			mes "๏ฟฝ๏ฟฝรท๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝรถ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝษของ๏ฟฝ๏ฟฝ๏ฟฝ.";
+			mes "การทำมือเทียมไม่ใช่ความสามารถพิเศษของข้า.";
 			break;
 		case EQI_GARMENT:
-			mes "๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝัก๏ฟฝ๏ฟฝาค๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ ?";
+			mes "เจ้ารู้จักผ้าคลุมไหม ?";
 			break;
 		case EQI_SHOES:
-			mes "๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝาก๏ฟฝีบวก๏ฟฝ๏ฟฝ๏ฟฝ, ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝาข๏ฟฝ๏ฟฝ, ๏ฟฝ๏ฟฝาค๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝาธอนแทน.";
+			mes "ถ้าเจ้าอยากตีบวกเท้า, อย่ามาหาข้า, เจ้าควรไปวิ่งมาราธอนแทน.";
 			break;
 		case EQI_ACC_L:
 		case EQI_ACC_R:
-			mes "๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝีป๏ฟฝะดับ ?";
+			mes "ไม่เห็นมีประดับ ?";
 			break;
 		case EQI_HEAD_MID:
-			mes "๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ็นของ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝาก๏ฟฝีบวก๏ฟฝ๏ฟฝ๏ฟฝ.";
+			mes "ข้าไม่เห็นของที่เจ้าอยากตีบวกเลย.";
 			break;
 		case EQI_HEAD_LOW:
-			mes "๏ฟฝ๏ฟฝาท๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝาฉ๏ฟฝาด๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝอก. ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝอง๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝยนอนุบ๏ฟฝลด๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ.";
+			mes "ข้าทำให้เจ้าฉลาดขึ้นไม่ได้หรอก. ทำไมไม่ลองไปเรียนอนุบาลดูล่ะ.";
 			break;
 		}
 		close;
 	}
 	if (!getequipisenableref(.@part)) {
 		mes "[Basta]";
-		mes "๏ฟฝ๏ฟฝาตีบวก๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ.";
+		mes "ข้าตีบวกไอเท็มนี้ไม่ได้.";
 		close;
 	}
 	.@refine_count = getequiprefinerycnt(.@part);
 	if (.@refine_count < 10) {
 		mes "[Basta]";
-		mes "๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝอก๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝัง ? ๏ฟฝ๏ฟฝาข๏ฟฝาตีบวกเฉพ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ +10 ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝาน๏ฟฝ๏ฟฝ.";
+		mes "ข้าได้บอกเจ้ายัง ? ว่าข้าตีบวกเฉพาะไอเท็ม +10 ขึ้นไปเท่านั้น.";
 		close;
 	}
 	.@weapon_lvl = getequipweaponlv(.@part);
 	.@bb = getblacksmithblessing(.@weapon_lvl,.@refine_count);
 	if (!.@bb) {
 		mes "[Basta]";
-		mes "๏ฟฝัน๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝเฟค๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ, ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝรถ๏ฟฝีบวก๏ฟฝาก๏ฟฝ๏ฟฝ๏ฟฝาน๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ~";
+		mes "มันเพอร์เฟคแล้ว, ไม่สามารถตีบวกมากกว่านี้ได้แล้ว~";
 		close;
 	}
 	.@refineitemid = getequipid(.@part); // save id of the item
@@ -291,39 +265,40 @@ lhz_in02,280,19,3	duplicate(MightyHammer)	Mighty Hammer#lhz	4_M_DWARF
 	else
 		.@type$ = "weapon";
 	mes "[Basta]";
-	mes "Hmm... is this the one you want to refine?";
-	mes "To refine this equipment, I need 1 ^ff9999" + getitemname(.@material) + "^000000 and " + callfunc("F_InsertComma",.@price) + " zeny as a fee.";
-	mes "Do you really want to refine this?";
+	mes "หืมมม... เจ้าอยากตีบวกอันนี้ใช่ไหม ?";
+	mes "ในการตีบวก, ข้าต้องการ 1 ^ff9999" + getitemname(.@material) + "^000000 และ " + callfunc("F_InsertComma",.@price) + " zeny เป็นค่าบริการ.";
+	mes "เจ้าพร้อมที่จะตีบวกยัง ?";
 	next;
-	if (select("Yes:No") == 2) {
+	if(select("ใช่:ไม่") == 2) {
 		mes "[Basta]";
-		mes "๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝีปัญ๏ฟฝ๏ฟฝ. ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝัง๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ...";
+		mes "ไม่มีปัญหา. ถ้าเจ้ายังไม่พร้อม...";
 		close;
 	}
 	if (getequippercentrefinery(.@part, REFINE_COST_OVER10_HD) < 100) {
 		mes "[Basta]";
-		mes "This " + .@type$ + " has already been refined pretty high.";
-		mes "If you try to refine it more, the refine level could decrease.";
+		mes "ของชิ้นนี้ " + .@type$ + " มีเลเวลการตีบวกที่สูงแล้ว.";
+		mes "ถ้าเจ้าอยากตีบวกต่อ, มันอาจจะลดเลเวลตีบวกลงได้.";
 		next;
 		mes "[Basta]";
-		mes "๏ฟฝอง๏ฟฝ๏ฟฝ้นน๏ฟฝ๏ฟฝ " + .@type$ + " ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝลก๏ฟฝรตีบวก๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝูง๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ.";
-		mes "๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝาก๏ฟฝีบวก๏ฟฝ๏ฟฝ๏ฟฝ, ๏ฟฝัน๏ฟฝาจ๏ฟฝ๏ฟฝลด๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝลตีบวกลง๏ฟฝ๏ฟฝ.";
+		mes "ข้าแตกต่างจากช่างตีบวกคนอื่นๆ.";
+		mes "เมื่อล้มเหลว เลเวลการตีบวกจะลดลง, อาจจะ, 3 หรือ 4... มันฟังดูน่ากลัวเนอะ.";
+		mes "แต่สำหรับข้ามันจะลดลงแค่ 1 เลเวล.";
 		next;
 		if (.@refinebb[1] == 0 || countitem(.@refinebb[0]) < .@refinebb[1]) {
 			mes "[Basta]";
-			mes "Compared to other blacksmiths, the risk is smaller.";
-			mes "I've given all precautions. Do you want to try it?";
+			mes "เมื่อเทียบกับช่างตีบวกคนอื่น ๆ ความเสี่ยงของข้าดูจะน้อยกว่า.";
+			mes "เจ้าต้องการตีบวกต่อไหม ?";
 			next;
-			setarray .@menu$[1], "Yes", "No";
+			setarray .@menu$[1], "ใช่", "ไม่";
 		}
 		else {
 			mes "[Basta]";
-			mes "Woh~ is it the ^316AC5Blacksmith Blessing^000000? It is difficult to get it~ But, you has get it!";
+			mes "ว้า ~ มันคือ ^316AC5Blacksmith Blessing^000000 หรือเปล่ามันยากที่จะได้มา~ แต่คุณได้รับมันแล้ว!";
 			next;
 			mes "[Basta]";
-			mes "For +" + .@refine_count + " " + .@type$ + " need ^316AC5" + .@refinebb[1] + " unit(s) Blacksmith Blessing^000000 can prevent the equipment is vanished. Do you want to refine with Blacksmith Blessing?";
+			mes "สำหรับ +" + .@refine_count + " " + .@type$ + " ต้องการ ^316AC5" + .@refinebb[1] + " ชิ้น Blacksmith Blessing^000000 สามารถป้องกันไม่ให้อุปกรณ์เสียหายไป เจ้าต้องการตีบวกด้วย Blacksmith Blessing หรือไม่?";
 			next;
-			setarray .@menu$[0], "Refine with Blacksmith Blessing", "Refine without Blacksmith Blessing", "Don't refine yet";
+			setarray .@menu$[0], "ตีบวกด้วย Blacksmith Blessing", "ตีบวกโดยไม่ใช้ Blacksmith Blessing", "อย่าตีบวกนะ";
 		}
 		switch( select(.@menu$[0], .@menu$[1], .@menu$[2]) ) {
 		case 1:
@@ -333,37 +308,15 @@ lhz_in02,280,19,3	duplicate(MightyHammer)	Mighty Hammer#lhz	4_M_DWARF
 			break;
 		case 3:
 			mes "[Basta]";
-			mes "๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝยบ๏ฟฝับ๏ฟฝ๏ฟฝาง๏ฟฝีบวก๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ ๏ฟฝ ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝยง๏ฟฝอง๏ฟฝ๏ฟฝาดูจะน๏ฟฝ๏ฟฝยก๏ฟฝ๏ฟฝ๏ฟฝ.";
-			mes "๏ฟฝ๏ฟฝาต๏ฟฝอง๏ฟฝ๏ฟฝรตีบวก๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ ?";
-			next;
-			setarray .@menu$[1], "๏ฟฝ๏ฟฝ", "๏ฟฝ๏ฟฝ๏ฟฝ";
-		}
-		else {
-			mes "[Basta]";
-			mes "๏ฟฝ๏ฟฝ๏ฟฝ ~ ๏ฟฝัน๏ฟฝ๏ฟฝ๏ฟฝ ^316AC5Blacksmith Blessing^000000 ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝัน๏ฟฝาก๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ~ ๏ฟฝ๏ฟฝุณ๏ฟฝ๏ฟฝ๏ฟฝับ๏ฟฝัน๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ!";
-			next;
-			mes "[Basta]";
-			mes "๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝับ +" + .@refine_count + " " + .@type$ + " ๏ฟฝ๏ฟฝอง๏ฟฝ๏ฟฝ๏ฟฝ ^316AC5" + .@refinebb[1] + " ๏ฟฝ๏ฟฝ๏ฟฝ Blacksmith Blessing^000000 ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝรถ๏ฟฝ๏ฟฝอง๏ฟฝัน๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝุป๏ฟฝรณ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ ๏ฟฝ๏ฟฝาต๏ฟฝอง๏ฟฝ๏ฟฝรตีบวก๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ Blacksmith Blessing ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ?";
-			next;
-			setarray .@menu$[0], "๏ฟฝีบวก๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ Blacksmith Blessing", "๏ฟฝีบวก๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ Blacksmith Blessing", "๏ฟฝ๏ฟฝ๏ฟฝาตีบวก๏ฟฝ๏ฟฝ";
-		}
-		switch( select(.@menu$[0], .@menu$[1], .@menu$[2]) ) {
-		case 1:
-			.@bless_who = 1;
-			break;
-		case 2:
-			break;
-		case 3:
-			mes "[Basta]";
-			mes "๏ฟฝ๏ฟฝ๏ฟฝ ~";
-			mes "๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝาท๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝาจ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝิปัญ๏ฟฝ๏ฟฝในช๏ฟฝ๏ฟฝิต๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ";
+			mes "อืม ~";
+			mes "การไม่ท้าทายเลยอาจเป็นภูมิปัญญาในชีวิตก็ได้";
 			close;
 		}
 	}
 	if ((.@bless_who && countitem(.@refinebb[0]) < .@refinebb[1]) || countitem(.@material) == 0 || Zeny < .@price) {
 		mes "[Basta]";
-		mes "๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ... ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝีของ๏ฟฝ๏ฟฝ๏ฟฝรบ.";
-		mes "๏ฟฝ๏ฟฝับ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝีของ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ.";
+		mes "หืมมม... เจ้ามีของไม่ครบ.";
+		mes "กลับมาใหม่เมื่อเจ้ามีของพร้อม.";
 		close;
 	}
 	if (.@bless_who)
@@ -376,20 +329,20 @@ lhz_in02,280,19,3	duplicate(MightyHammer)	Mighty Hammer#lhz	4_M_DWARF
 		callfunc("F_IsEquipRefineHack", .@part, .@refinerycnt)) {
 		mes "[Basta]";
 		emotion ET_FRET;
-		mes "๏ฟฝ๏ฟฝหน๏ฟฝ่งน๏ฟฝ๏ฟฝ...";
-		mes "๏ฟฝ๏ฟฝาคิด๏ฟฝ๏ฟฝาข๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ?!";
-		mes "๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝอบ๏ฟฝ๏ฟฝับ๏ฟฝอง๏ฟฝอน๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ! ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝหน๏ฟฝาซ๏ฟฝ!";
+		mes "แป็ปหนึ่งน่ะ...";
+		mes "เจ้าคิดว่าข้าโง่หรอ?!";
+		mes "เจ้าแอบสลับของตอนข้าเผลอ! ไปให้พ้นหน้าซะ!";
 		close;
 	}
 
-	mes "Pow! Pow! Pow! Pow!";
+	mes "ก็อง! ก็อง! ก็อง! ก็อง!";
 	if (getequippercentrefinery(.@part, REFINE_COST_OVER10_HD) > rand(100)) {
 		successrefitem .@part;
 		next;
 		emotion ET_BEST;
 		mes "[Basta]";
-		mes "๏ฟฝอด๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝิง๏ฟฝ!!";
-		mes "๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝาข๏ฟฝาค๏ฟฝอช๏ฟฝาง๏ฟฝีบวก๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ่งท๏ฟฝ๏ฟฝ๏ฟฝุด๏ฟฝ๏ฟฝลก!";
+		mes "ยอดเยี่ยมจริงๆ!!";
+		mes "เพราะว่าข้าคือช่างตีบวกที่เก่งที่สุดในโลก!";
 		close;
 	}
 	if (.@bless_who == 1) {
@@ -400,9 +353,9 @@ lhz_in02,280,19,3	duplicate(MightyHammer)	Mighty Hammer#lhz	4_M_DWARF
 		mes "Aaaaaaaaaaak!!!";
 		next;
 		mes "[Basta]";
-		mes "Refining is failed!";
-		mes "The best blacksmith in the world like me...";
-		mes "doesn't guarantee 100% success~";
+		mes "แย่จริง!";
+		mes "ตีบวกล้มเหลวและค่าตีบวกลด!";
+		mes "ขนาดว่าข้าคือช่างตีบวกที่เก่งที่สุดในโลกยังไม่สำเร็จ 100% เลย!";
 	}
 	else {
 		downrefitem .@part;
@@ -412,14 +365,14 @@ lhz_in02,280,19,3	duplicate(MightyHammer)	Mighty Hammer#lhz	4_M_DWARF
 		mes "Aaaaaaaaaaak!!!";
 		next;
 		mes "[Basta]";
-		mes "Damn it!";
-		mes "Refining failed and refine level has decreased!";
-		mes "Even the best blacksmith in the world doesn't guarantee 100% success!";
+		mes "แย่จริง!";
+		mes "ตีบวกล้มเหลวและค่าตีบวกลด!";
+		mes "ขนาดว่าข้าคือช่างตีบวกที่เก่งที่สุดในโลกยังไม่สำเร็จ 100% เลย!";
 	}
-	mes "Too bad.";
+	mes "แย่มากๆ.";
 	next;
 	mes "[Basta]";
-	mes "๏ฟฝ๏ฟฝาจะท๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝีข๏ฟฝ๏ฟฝในค๏ฟฝ๏ฟฝ้งต๏ฟฝ๏ฟฝ๏ฟฝ! ๏ฟฝ๏ฟฝ๏ฟฝากัง๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ!";
+	mes "ข้าจะทำให้ดีขึ้นในครั้งต่อไป! อย่ากังวลเลย!";
 	close;
 }
 
