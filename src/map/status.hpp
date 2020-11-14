@@ -75,7 +75,8 @@ struct refine_cost {
 };
 
 struct refine_bs_blessing {
-	unsigned short nameid, count;
+	t_itemid nameid;
+	unsigned short count;
 };
 
 /// Get refine chance

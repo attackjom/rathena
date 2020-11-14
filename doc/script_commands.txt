@@ -2813,7 +2813,7 @@ a certain refine level is found in the db/(pre-)re/refine_db.yml file. For a lis
 equipment slots see 'getequipid'.
 
 For 'type'  values, see the valid types in 'getequiprefinecost' below.
-(As backward compatibility, if this value is unset, below +10 will use
+(As backward compatibility, if this value is unset, below +10 will use 
 REFINE_COST_NORMAL and above +10 is using REFINE_COST_OVER10).
 
 These values can be displayed for the player to see, or used to calculate the

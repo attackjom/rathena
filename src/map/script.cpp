@@ -25601,11 +25601,10 @@ struct script_function buildin_func[] = {
 	BUILDIN_DEF(achievementupdate,"iii?"),
 
 	// Refine UI
- 	BUILDIN_DEF(getequiprefinecost,"iii?"),
+	BUILDIN_DEF(getequiprefinecost,"iii?"),
 	BUILDIN_DEF(getblacksmithblessing, "ii"),
 	BUILDIN_DEF(refineui,"?"),
 
-	BUILDIN_DEF(getequiprefinecost,"iii?"),
 	BUILDIN_DEF2(round, "round", "ii"),
 	BUILDIN_DEF2(round, "ceil", "ii"),
 	BUILDIN_DEF2(round, "floor", "ii"),
