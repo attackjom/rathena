@@ -7,6 +7,8 @@
 #include <memory>
 #include <vector>
 
+#include "../common/cbasetypes.hpp"
+#include "../common/database.hpp"
 #include "../common/mmo.hpp" // JOB_*, MAX_FAME_LIST, struct fame_list, struct mmo_charstatus
 #include "../common/strlib.hpp"// StringBuf
 #include "../common/timer.hpp"
@@ -258,6 +260,19 @@ struct s_regen {
 	int tick;
 };
 
+/// Item combo struct
+struct s_combos {
+	script_code *bonus;
+	uint32 id;
+	uint32 pos;
+};
+
+struct s_qi_display {
+	bool is_active;
+	e_questinfo_types icon;
+	e_questinfo_markcolor color;
+};
+
 struct map_session_data {
 	struct block_list bl;
 	struct unit_data ud;
@@ -326,6 +341,7 @@ struct map_session_data {
 		bool cashshop_open;
 		bool sale_open;
 		unsigned int block_action : 10;
+		bool refineui_open;
 	} state;
 	struct {
 		unsigned char no_weapon_damage, no_magic_damage, no_misc_damage;
@@ -375,6 +391,7 @@ struct map_session_data {
 	unsigned int chatID;
 	time_t idletime;
 	time_t idletime_hom;
+	time_t idletime_mer;
 
 	struct s_progressbar {
 		int npc_id;
@@ -510,7 +527,7 @@ struct map_session_data {
 		int get_zeny_rate;
 		int get_zeny_num; //Added Get Zeny Rate [Skotlex]
 		int double_add_rate;
-		int short_weapon_damage_return,long_weapon_damage_return;
+		int short_weapon_damage_return,long_weapon_damage_return,reduce_damage_return;
 		int magic_damage_return; // AppleGirl Was Here
 		int break_weapon_rate,break_armor_rate;
 		int crit_atk_rate;
@@ -645,6 +662,9 @@ struct map_session_data {
 		int zeny;
 		struct mail_data inbox;
 		bool changed; // if true, should sync with charserver on next mailbox request
+		uint32 pending_weight;
+		uint32 pending_zeny;
+		uint16 pending_slots;
 	} mail;
 
 	//Quest log system
@@ -669,8 +689,7 @@ struct map_session_data {
 	std::vector<int> cloaked_npc;
 
 	/* ShowEvent Data Cache flags from map */
-	bool *qi_display;
-	int qi_count;
+	std::vector<s_qi_display> qi_display;
 
 	// temporary debug [flaviojs]
 	const char* debug_file;
@@ -699,12 +718,7 @@ struct map_session_data {
 	enum npc_timeout_type npc_idle_type;
 #endif
 
-	struct s_combos {
-		struct script_code **bonus;/* the script */
-		unsigned short *id;/* array of combo ids */
-		unsigned int *pos;/* array of positions*/
-		unsigned char count;
-	} combos;
+	std::vector<std::shared_ptr<s_combos>> combos;
 
 	/**
 	 * Guarantees your friend request is legit (for bugreport:4629)
@@ -780,9 +794,8 @@ struct map_session_data {
 
 	short setlook_head_top, setlook_head_mid, setlook_head_bottom, setlook_robe; ///< Stores 'setlook' script command values.
 
-#if PACKETVER >= 20150513
-	uint32* hatEffectIDs;
-	uint8 hatEffectCount;
+#if PACKETVER_MAIN_NUM >= 20150507 || PACKETVER_RE_NUM >= 20150429 || defined(PACKETVER_ZERO)
+	std::vector<int16> hatEffects;
 #endif
 
 	struct{
@@ -804,7 +817,7 @@ extern struct eri *str_reg_ers;
 /* Global Expiration Timer ID */
 extern int pc_expiration_tid;
 
-enum weapon_type {
+enum weapon_type : uint8 {
 	W_FIST,	//Bare hands
 	W_DAGGER,	//1
 	W_1HSWORD,	//2
@@ -842,16 +855,18 @@ enum weapon_type {
 
 #define WEAPON_TYPE_ALL ((1<<MAX_WEAPON_TYPE)-1)
 
-enum ammo_type {
-	A_ARROW = 1,
-	A_DAGGER,   //2
-	A_BULLET,   //3
-	A_SHELL,    //4
-	A_GRENADE,  //5
-	A_SHURIKEN, //6
-	A_KUNAI,     //7
-	A_CANNONBALL,	//8
-	A_THROWWEAPON	//9
+enum e_ammo_type : uint8 {
+	AMMO_NONE = 0,
+	AMMO_ARROW,
+	AMMO_DAGGER,
+	AMMO_BULLET,
+	AMMO_SHELL,
+	AMMO_GRENADE,
+	AMMO_SHURIKEN,
+	AMMO_KUNAI,
+	AMMO_CANNONBALL,
+	AMMO_THROWWEAPON,
+	MAX_AMMO_TYPE
 };
 
 enum idletime_option {
@@ -890,6 +905,31 @@ enum item_check {
 	ITMCHK_CART      = 0x2,
 	ITMCHK_STORAGE   = 0x4,
 	ITMCHK_ALL       = ITMCHK_INVENTORY|ITMCHK_CART|ITMCHK_STORAGE,
+};
+
+enum e_penalty_type : uint16{
+	PENALTY_NONE,
+	PENALTY_EXP,
+	PENALTY_DROP,
+	PENALTY_MVP_EXP,
+	PENALTY_MVP_DROP,
+	PENALTY_MAX
+};
+
+struct s_penalty{
+	e_penalty_type type;
+	uint16 rate[MAX_LEVEL * 2 - 1];
+};
+
+class PenaltyDatabase : public TypesafeYamlDatabase<uint16, s_penalty> {
+public:
+	PenaltyDatabase() : TypesafeYamlDatabase( "PENALTY_DB", 1 ){
+
+	}
+
+	const std::string getDefaultLocation();
+	uint64 parseBodyNode(const YAML::Node& node);
+	void loadingFinished();
 };
 
 struct s_job_info {
@@ -938,11 +978,11 @@ extern struct s_job_info job_info[CLASS_COUNT];
 #define pc_issit(sd)          ( (sd)->vd.dead_sit == 2 )
 #define pc_isidle_party(sd)   ( (sd)->chatID || (sd)->state.vending || (sd)->state.buyingstore || DIFF_TICK(last_tick, (sd)->idletime) >= battle_config.idle_no_share )
 #define pc_isidle_hom(sd)     ( (sd)->hd && ( (sd)->chatID || (sd)->state.vending || (sd)->state.buyingstore || DIFF_TICK(last_tick, (sd)->idletime_hom) >= battle_config.hom_idle_no_share ) )
+#define pc_isidle_mer(sd)     ( (sd)->md && ( (sd)->chatID || (sd)->state.vending || (sd)->state.buyingstore || DIFF_TICK(last_tick, (sd)->idletime_mer) >= battle_config.mer_idle_no_share ) )
 #define pc_istrading(sd)      ( (sd)->npc_id || (sd)->state.vending || (sd)->state.buyingstore || (sd)->state.trading )
-#define pc_cant_act(sd)       ( (sd)->npc_id || (sd)->state.vending || (sd)->state.buyingstore || (sd)->chatID || ((sd)->sc.opt1 && (sd)->sc.opt1 != OPT1_BURNING) || (sd)->state.trading || (sd)->state.storage_flag || (sd)->state.prevend )
-
-/* equals pc_cant_act except it doesn't check for chat rooms or npcs */
-#define pc_cant_act2(sd)       ( (sd)->state.vending || (sd)->state.buyingstore || ((sd)->sc.opt1 && (sd)->sc.opt1 != OPT1_BURNING) || (sd)->state.trading || (sd)->state.storage_flag || (sd)->state.prevend )
+// equals pc_cant_act2 and additionally checks for chat rooms and npcs
+#define pc_cant_act(sd)       ( (sd)->npc_id || (sd)->chatID || pc_cant_act2( (sd) ) )
+#define pc_cant_act2(sd)      ( (sd)->state.vending || (sd)->state.buyingstore || ((sd)->sc.opt1 && (sd)->sc.opt1 != OPT1_BURNING) || (sd)->state.trading || (sd)->state.storage_flag || (sd)->state.prevend || (sd)->state.refineui_open )
 
 #define pc_setdir(sd,b,h)     ( (sd)->ud.dir = (b) ,(sd)->head_dir = (h) )
 #define pc_setchatid(sd,n)    ( (sd)->chatID = n )
@@ -990,6 +1030,13 @@ short pc_maxaspd(struct map_session_data *sd);
 #define pc_iswug(sd)       ( (sd)->sc.option&OPTION_WUG )
 #define pc_isridingwug(sd) ( (sd)->sc.option&OPTION_WUGRIDER )
 // Mechanic Magic Gear
+enum e_mado_type : uint16 {
+	MADO_ROBOT = 0x00,
+	MADO_UNUSED,
+	MADO_SUIT,
+	MADO_MAX
+};
+
 #define pc_ismadogear(sd) ( (sd)->sc.option&OPTION_MADOGEAR )
 // Rune Knight Dragon
 #define pc_isridingdragon(sd) ( (sd)->sc.option&OPTION_DRAGON )
@@ -1135,7 +1182,7 @@ enum e_setpos{
 
 enum e_setpos pc_setpos(struct map_session_data* sd, unsigned short mapindex, int x, int y, clr_type clrtype);
 void pc_setsavepoint(struct map_session_data *sd, short mapindex,int x,int y);
-char pc_randomwarp(struct map_session_data *sd,clr_type type);
+char pc_randomwarp(struct map_session_data *sd,clr_type type,bool ignore_mapflag = false);
 bool pc_memo(struct map_session_data* sd, int pos);
 
 char pc_checkadditem(struct map_session_data *sd, t_itemid nameid, int amount);
@@ -1247,11 +1294,11 @@ void pc_heal(struct map_session_data *sd,unsigned int hp,unsigned int sp, int ty
 int pc_itemheal(struct map_session_data *sd, t_itemid itemid, int hp,int sp);
 int pc_percentheal(struct map_session_data *sd,int,int);
 bool pc_jobchange(struct map_session_data *sd, int job, char upper);
-void pc_setoption(struct map_session_data *,int);
+void pc_setoption(struct map_session_data *,int type, int subtype = 0);
 bool pc_setcart(struct map_session_data* sd, int type);
 void pc_setfalcon(struct map_session_data* sd, int flag);
 void pc_setriding(struct map_session_data* sd, int flag);
-void pc_setmadogear(struct map_session_data* sd, int flag);
+void pc_setmadogear(struct map_session_data* sd, bool flag, e_mado_type type = MADO_ROBOT);
 void pc_changelook(struct map_session_data *,int,int);
 void pc_equiplookall(struct map_session_data *sd);
 void pc_set_costume_view(struct map_session_data *sd);
@@ -1417,7 +1464,7 @@ void pc_show_questinfo_reinit(struct map_session_data *sd);
 bool pc_job_can_entermap(enum e_job jobid, int m, int group_lv);
 
 #if defined(RENEWAL_DROP) || defined(RENEWAL_EXP)
-int pc_level_penalty_mod(int level_diff, uint32 mob_class, enum e_mode mode, int type);
+uint16 pc_level_penalty_mod( struct map_session_data* sd, e_penalty_type type, std::shared_ptr<s_mob_db> mob, mob_data* md = nullptr );
 #endif
 
 bool pc_attendance_enabled();
