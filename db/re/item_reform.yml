@@ -9201,11 +9201,11 @@ Body:
         RandomOptionGroup: Group_0
         ClearSlots: true
         RemoveEnchantgrade: true
-      - BaseItem: Ep172_Bh_knuck
+      - BaseItem: Ep172_Bh_Knuck
         Materials:
           - Material: Imperfect_Rune
             Amount: 10
-        ResultItem: R_Ep172_Bh_knuck
+        ResultItem: R_Ep172_Bh_Knuck
         ChangeRefine: -20
         RandomOptionGroup: Group_0
         ClearSlots: true
