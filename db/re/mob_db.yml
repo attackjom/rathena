@@ -93441,6 +93441,8 @@ Body:
     ChaseRange: 12
     Size: Medium
     Race: Demihuman
+    RaceGroups:
+      Edda_Arunafeltz: true
     Element: Neutral
     ElementLevel: 2
     WalkSpeed: 150
@@ -93482,6 +93484,8 @@ Body:
     ChaseRange: 12
     Size: Medium
     Race: Demihuman
+    RaceGroups:
+      Edda_Arunafeltz: true
     Element: Neutral
     ElementLevel: 2
     WalkSpeed: 200
@@ -93525,6 +93529,8 @@ Body:
     ChaseRange: 12
     Size: Medium
     Race: Demihuman
+    RaceGroups:
+      Edda_Arunafeltz: true
     Element: Neutral
     ElementLevel: 2
     WalkSpeed: 200
@@ -93568,6 +93574,8 @@ Body:
     ChaseRange: 12
     Size: Medium
     Race: Brute
+    RaceGroups:
+      Edda_Arunafeltz: true
     Element: Fire
     ElementLevel: 2
     WalkSpeed: 140
@@ -93611,6 +93619,8 @@ Body:
     ChaseRange: 12
     Size: Medium
     Race: Demihuman
+    RaceGroups:
+      Edda_Arunafeltz: true
     Element: Neutral
     ElementLevel: 3
     WalkSpeed: 180
@@ -93651,6 +93661,8 @@ Body:
     ChaseRange: 12
     Size: Small
     Race: Formless
+    RaceGroups:
+      Edda_Arunafeltz: true
     Element: Water
     ElementLevel: 2
     WalkSpeed: 1000
@@ -93679,6 +93691,8 @@ Body:
     ChaseRange: 12
     Size: Medium
     Race: Demihuman
+    RaceGroups:
+      Edda_Arunafeltz: true
     Element: Water
     ElementLevel: 3
     WalkSpeed: 180
@@ -93757,6 +93771,8 @@ Body:
     ChaseRange: 12
     Size: Medium
     Race: Demihuman
+    RaceGroups:
+      Edda_Arunafeltz: true
     Element: Neutral
     ElementLevel: 2
     WalkSpeed: 180
@@ -93798,6 +93814,8 @@ Body:
     ChaseRange: 12
     Size: Medium
     Race: Demihuman
+    RaceGroups:
+      Edda_Arunafeltz: true
     Element: Neutral
     ElementLevel: 2
     WalkSpeed: 200
@@ -93841,6 +93859,8 @@ Body:
     ChaseRange: 12
     Size: Medium
     Race: Demihuman
+    RaceGroups:
+      Edda_Arunafeltz: true
     Element: Neutral
     ElementLevel: 2
     WalkSpeed: 200
@@ -93884,6 +93904,8 @@ Body:
     ChaseRange: 12
     Size: Medium
     Race: Brute
+    RaceGroups:
+      Edda_Arunafeltz: true
     Element: Fire
     ElementLevel: 2
     WalkSpeed: 140
@@ -93927,6 +93949,8 @@ Body:
     ChaseRange: 12
     Size: Medium
     Race: Demihuman
+    RaceGroups:
+      Edda_Arunafeltz: true
     Element: Neutral
     ElementLevel: 3
     WalkSpeed: 180
@@ -93967,6 +93991,8 @@ Body:
     ChaseRange: 12
     Size: Small
     Race: Formless
+    RaceGroups:
+      Edda_Arunafeltz: true
     Element: Water
     ElementLevel: 2
     WalkSpeed: 1000
@@ -93995,6 +94021,8 @@ Body:
     ChaseRange: 12
     Size: Medium
     Race: Demihuman
+    RaceGroups:
+      Edda_Arunafeltz: true
     Element: Neutral
     ElementLevel: 3
     WalkSpeed: 180
@@ -94042,6 +94070,8 @@ Body:
     ChaseRange: 12
     Size: Large
     Race: Formless
+    RaceGroups:
+      Edda_Arunafeltz: true
     Element: Water
     ElementLevel: 2
     WalkSpeed: 150
@@ -94072,6 +94102,8 @@ Body:
     ChaseRange: 12
     Size: Large
     Race: Formless
+    RaceGroups:
+      Edda_Arunafeltz: true
     Element: Water
     ElementLevel: 3
     WalkSpeed: 400
@@ -115251,6 +115283,32 @@ Body:
 #    AegisName: E_SMART_ANDRE
 #  - Id: 22409
 #    AegisName: E_RE_PINE
+#  - Id: 22410
+#    AegisName: EP21_YOR_TAN_H
+#  - Id: 22411
+#    AegisName: EP21_MD_BOX2
+#  - Id: 22412
+#    AegisName: EP21_YORTUS_A_H
+#  - Id: 22413
+#    AegisName: EP21_YORTUS_B_H
+#  - Id: 22414
+#    AegisName: EP21_YORDOS_C_H
+#  - Id: 22415
+#    AegisName: EP21_YORDOS_B_H
+#  - Id: 22416
+#    AegisName: EP21_YORDOS_A_H
+#  - Id: 22417
+#    AegisName: EP21_YORMI_A_H
+#  - Id: 22418
+#    AegisName: EP21_YORMI_B_H
+#  - Id: 22419
+#    AegisName: EP21_YOSCOPUS_A_H
+#  - Id: 22420
+#    AegisName: EP21_YOSCOPUS_B_H
+#  - Id: 22421
+#    AegisName: EP21_B_YORTUS_A_H
+#  - Id: 22422
+#    AegisName: EP21_B_YORTUS_B_H
 #  - Id: 23000
 #    AegisName: DARK_ILLUSION2
 #  - Id: 23001
