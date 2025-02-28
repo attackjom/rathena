@@ -113,7 +113,7 @@ bool unit_update_chase(block_list& bl, t_tick tick, bool fullcheck) {
 		tbl = map_id2bl(ud->target_to);
 
 	// Reached destination, start attacking
-	if (tbl != nullptr && tbl->m == bl.m && check_distance_bl(&bl, tbl, ud->chaserange) && status_check_visibility(&bl, tbl, false)) {
+	if (tbl != nullptr && tbl->m == bl.m && ud->walkpath.path_pos > 0 && check_distance_bl(&bl, tbl, ud->chaserange) && status_check_visibility(&bl, tbl, false)) {
 		ud->to_x = bl.x;
 		ud->to_y = bl.y;
 		ud->target_to = 0;
@@ -2965,15 +2965,16 @@ static int32 unit_attack_timer_sub(struct block_list* src, int32 tid, t_tick tic
 	}
 
 	if( !battle_check_range(src,target,range) ) {
-	  	// Within range, but no direct line of attack
-		if( ud->state.attack_continue ) {
-			if(ud->chaserange > 2)
-				ud->chaserange-=2;
+		// Within range, but no direct line of attack
+		// This code can usually only be reached if OFFICIAL_WALKPATH is disabled
+		if (ud->state.attack_continue && ud->chaserange > 1) {
+			ud->chaserange = std::max(1, ud->chaserange - 2);
 
-			unit_walktobl(src,target,ud->chaserange,ud->state.walk_easy|2);
+			// Walk closer / around the obstacle and start attacking once you are in range
+			return unit_walktobl(src,target,ud->chaserange,ud->state.walk_easy|2);
 		}
-
-		return 1;
+		// Can't attack even though next to the target? Giving up here.
+		return 0;
 	}
 
 	// Sync packet only for players.
