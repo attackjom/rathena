@@ -79,20 +79,6 @@ struct unit_data* unit_bl2ud(struct block_list *bl)
 }
 
 /**
- * Sets a mob's CHASE/FOLLOW state
- * This should not be done if there's no path to reach
- * @param bl: Mob to set state on
- * @param flag: Whether to set state or not
- */
-static inline void set_mobstate(struct block_list* bl, int32 flag)
-{
-	struct mob_data* md = BL_CAST(BL_MOB, bl);
-
-	if (md != nullptr && flag)
-		md->state.skillstate = md->state.aggressive ? MSS_FOLLOW : MSS_RUSH;
-}
-
-/**
  * Updates chase depending on situation:
  * If target in attack range -> attack
  * If target out of sight -> drop target
@@ -113,32 +99,33 @@ bool unit_update_chase(block_list& bl, t_tick tick, bool fullcheck) {
 		tbl = map_id2bl(ud->target_to);
 
 	// Reached destination, start attacking
-	if (tbl != nullptr && tbl->m == bl.m && ud->walkpath.path_pos > 0 && check_distance_bl(&bl, tbl, ud->chaserange) && status_check_visibility(&bl, tbl, false)) {
-		ud->to_x = bl.x;
-		ud->to_y = bl.y;
-		ud->target_to = 0;
-		// Aegis uses one before every attack, we should
-		// only need this one for syncing purposes.
-		clif_fixpos(bl);
+	if (tbl != nullptr && tbl->type != BL_ITEM && tbl->m == bl.m && ud->walkpath.path_pos > 0 && check_distance_bl(&bl, tbl, ud->chaserange)) {
+		// We need to make sure the walkpath is cleared here so a monster doesn't continue walking in case it unlocks its target
+		unit_stop_walking(&bl, USW_FIXPOS|USW_FORCE_STOP|USW_RELEASE_TARGET);
 		if (ud->state.attack_continue)
 			unit_attack(&bl, tbl->id, ud->state.attack_continue);
 		return true;
 	}
 	// Cancel chase
 	else if (tbl == nullptr || (fullcheck && !status_check_visibility(&bl, tbl, (bl.type == BL_MOB)))) {
-		ud->to_x = bl.x;
-		ud->to_y = bl.y;
-
-		if (tbl != nullptr && bl.type == BL_MOB) {
+		// Looted items will have no tbl but target ID is still set, that's why we need to check for the ID here
+		if (ud->target_to != 0 && bl.type == BL_MOB) {
 			mob_data& md = reinterpret_cast<mob_data&>(bl);
-			if (mob_warpchase(&md, tbl))
-				return true;
+			if (tbl != nullptr) {
+				int32 warp = mob_warpchase(&md, tbl);
+				// Do warp chase
+				if (warp == 1)
+					return true;
+				// Continue moving to warp
+				else if (warp == 2)
+					return false;
+			}
 			// Make sure monsters properly unlock their target, but still continue movement
 			mob_unlocktarget(&md, tick);
 			return false;
 		}
 
-		ud->target_to = 0;
+		unit_stop_walking(&bl, USW_FIXPOS|USW_FORCE_STOP|USW_RELEASE_TARGET);
 		return true;
 	}
 	// Update chase path
@@ -194,14 +181,9 @@ bool unit_walktoxy_nextcell(block_list& bl, bool sendMove, t_tick tick) {
 			sendMove = true;
 		}
 		if (ud->target_to != 0) {
-			int16 tx = ud->to_x;
-			int16 ty = ud->to_y;
 			// Monsters update their chase path one cell before reaching their final destination
 			if (unit_update_chase(bl, tick, (ud->walkpath.path_pos == ud->walkpath.path_len - 1)))
 				return true;
-			// Continue moving, restore to_x and to_y
-			ud->to_x = tx;
-			ud->to_y = ty;
 		}
 	}
 
@@ -286,10 +268,12 @@ int32 unit_walktoxy_sub(struct block_list *bl)
 		unit_refresh( bl, true );
 	}
 #endif
-
 	// Set mobstate here already as chase skills can be used on the first frame of movement
 	// If we don't set it now the monster will always move a full cell before checking
-	set_mobstate(bl, ud->state.attack_continue);
+	else if (bl->type == BL_MOB && ud->state.attack_continue) {
+		mob_data& md = reinterpret_cast<mob_data&>(*bl);
+		mob_setstate(md, MSS_RUSH);
+	}
 
 	unit_walktoxy_nextcell(*bl, true, gettick());
 
@@ -589,11 +573,8 @@ static TIMER_FUNC(unit_walktoxy_timer)
 		//Needs to be done here so that rudeattack skills are invoked
 		md->walktoxy_fail_count++;
 		clif_fixpos( *bl );
-		// Monsters in this situation will unlock target and then attempt an idle skill
-		// When they start chasing again, they will check for a chase skill before returning here
+		// Monsters in this situation will unlock target
 		mob_unlocktarget(md, tick);
-		if (DIFF_TICK(tick, md->last_skillcheck) >= MOB_SKILL_INTERVAL)
-			mobskill_use(md, tick, -1);
 		return 0;
 	}
 
@@ -822,7 +803,7 @@ int32 unit_walktoxy( struct block_list *bl, int16 x, int16 y, unsigned char flag
 	if (ud == nullptr)
 		return 0;
 
-	if ((flag&8) && !map_closest_freecell(bl->m, &x, &y, BL_CHAR|BL_NPC, 1)) //This might change x and y
+	if ((flag&8) && !map_nearby_freecell(bl->m, x, y, BL_CHAR|BL_NPC, 1)) //This might change x and y
 		return 0;
 
 	walkpath_data wpd = { 0 };
@@ -962,7 +943,12 @@ int32 unit_walktobl(struct block_list *bl, struct block_list *tbl, int32 range, 
 
 	if(ud->walktimer != INVALID_TIMER) {
 		ud->state.change_walk_target = 1;
-		set_mobstate(bl, flag&2);
+
+		// New target, make sure a monster is still in chase state
+		if (bl->type == BL_MOB && ud->state.attack_continue) {
+			mob_data& md = reinterpret_cast<mob_data&>(*bl);
+			mob_setstate(md, MSS_RUSH);
+		}
 
 		return 1;
 	}
@@ -1502,19 +1488,31 @@ void unit_stop_walking_soon(struct block_list& bl)
 	if (ud == nullptr)
 		return;
 
-	if (ud->walktimer == INVALID_TIMER)
+	// Less than 1 cell left to walk
+	// We need to make sure to_x and to_y are reset to match the walk path in case they were modified
+	if (ud->walkpath.path_pos + 1 >= ud->walkpath.path_len) {
+		ud->to_x = bl.x;
+		ud->to_y = bl.y;
+		// One more cell to move
+		if (ud->walkpath.path_pos + 1 == ud->walkpath.path_len) {
+			ud->to_x += dirx[ud->walkpath.path[ud->walkpath.path_pos]];
+			ud->to_y += diry[ud->walkpath.path[ud->walkpath.path_pos]];
+		}
 		return;
-
-	if (ud->walkpath.path_pos + 1 >= ud->walkpath.path_len)
-		return;
-
-	const struct TimerData* td = get_timer(ud->walktimer);
-
-	if (td == nullptr)
-		return;
+	}
 
 	// Get how much percent we traversed on the timer
-	double cell_percent = 1.0 - ((double)DIFF_TICK(td->tick, gettick()) / (double)td->data);
+	// If timer is invalid, we are exactly on cell center (0% traversed)
+	double cell_percent = 0.0;
+	if (ud->walktimer != INVALID_TIMER) {
+		const struct TimerData* td = get_timer(ud->walktimer);
+
+		if (td == nullptr)
+			return;
+
+		// Get how much percent we traversed on the timer
+		cell_percent = 1.0 - ((double)DIFF_TICK(td->tick, gettick()) / (double)td->data);
+	}
 
 	int16 ox = bl.x, oy = bl.y; // Remember original x and y coordinates
 	int16 path_remain = 1; // Remaining path to walk
@@ -2678,6 +2676,13 @@ int32 unit_attack(struct block_list *src,int32 target_id,int32 continuous)
 	else // Attack NOW.
 		unit_attack_timer(INVALID_TIMER, gettick(), src->id, 0);
 
+	// Monster state is set regardless of whether the attack is executed now or later
+	// The check is here because unit_attack can be called from both the monster AI and the walking logic
+	if (src->type == BL_MOB) {
+		mob_data& md = reinterpret_cast<mob_data&>(*src);
+		mob_setstate(md, MSS_BERSERK);
+	}
+
 	return 0;
 }
 
@@ -2898,15 +2903,21 @@ static int32 unit_attack_timer_sub(struct block_list* src, int32 tid, t_tick tic
 
 	sd = BL_CAST(BL_PC, src);
 	md = BL_CAST(BL_MOB, src);
+
+	// Make sure attacktimer is removed before doing anything else
 	ud->attacktimer = INVALID_TIMER;
+
+	// Note: Officially there is no such thing as an attack timer. All actions are driven by the client or the AI.
+	// We use the continuous attack timers to have accurate attack timings that don't depend on the AI interval.
+	// However, for a clean implementation we still should channel through the whole AI code so the same rules
+	// apply as usual and we don't need to code extra rules. Currently we resolved this only for monsters.
+	// We don't want this to trigger on direct calls of the timer function as that should just execute the attack.
+	if (md != nullptr && tid != INVALID_TIMER)
+		return mob_ai_sub_hard_attacktimer(*md, tick);
+
 	target = map_id2bl(ud->target);
 
 	if( src == nullptr || src->prev == nullptr || target==nullptr || target->prev == nullptr )
-		return 0;
-
-	// Monsters have a special visibility check at the end of their attack delay
-	// We don't want this to trigger on direct calls of the timer function
-	if (src->type == BL_MOB && tid != INVALID_TIMER && !status_check_visibility(src, target, true))
 		return 0;
 
 	if( status_isdead(*src) || status_isdead(*target) ||
@@ -2990,18 +3001,6 @@ static int32 unit_attack_timer_sub(struct block_list* src, int32 tid, t_tick tic
 			unit_stop_walking( src, USW_FIXPOS );
 
 		if(md) {
-			// Berserk skills can replace normal attacks except for the first attack
-			// If this is the first attack, the state is not Berserk yet, so the skill check is skipped
-			if(md->state.skillstate == MSS_BERSERK) {
-				if (mobskill_use(md, tick, -1)) {
-					// Setting the delay here because not all monster skill use situations will cause an attack delay
-					ud->attackabletime = tick + sstatus->adelay;
-					return 1;
-				}
-			}
-			// Set mob's ANGRY/BERSERK states.
-			md->state.skillstate = md->state.aggressive?MSS_ANGRY:MSS_BERSERK;
-
 			if (status_has_mode(sstatus,MD_ASSIST) && DIFF_TICK(tick, md->last_linktime) >= MIN_MOBLINKTIME) { 
 				// Link monsters nearby [Skotlex]
 				md->last_linktime = tick;
@@ -3033,9 +3032,14 @@ static int32 unit_attack_timer_sub(struct block_list* src, int32 tid, t_tick tic
 		if (ud->skilltimer == INVALID_TIMER)
 			ud->skill_id = 0;
 
-		// You can't move if you can't attack neither.
-		if (src->type&battle_config.attack_walk_delay)
-			unit_set_walkdelay(src, tick, sstatus->amotion, 1);
+		// You can't move during your attack motion
+		if (src->type&battle_config.attack_walk_delay) {
+			// Monsters set their AI inactive instead of having a walkdelay
+			if (md != nullptr)
+				md->next_thinktime = tick + status_get_amotion(src);
+			else
+				unit_set_walkdelay(src, tick, sstatus->amotion, 1);
+		}
 	}
 
 	if(ud->state.attack_continue) {
@@ -3161,8 +3165,13 @@ int32 unit_skillcastcancel(struct block_list *bl, char type)
 		}
 	}
 
-	if(bl->type==BL_MOB)
-		((TBL_MOB*)bl)->skill_idx = -1;
+	if (bl->type == BL_MOB) {
+		mob_data& md = reinterpret_cast<mob_data&>(*bl);
+		// Sets cooldowns and attack delay
+		// This needs to happen even if the cast was cancelled
+		mobskill_end(md, tick);
+		md.skill_idx = -1;
+	}
 
 	clif_skillcastcancel( *bl );
 
@@ -3440,7 +3449,7 @@ int32 unit_remove_map_(struct block_list *bl, clr_type clrtype, const char* file
 				md->spotted_log[i] = 0;
 
 			md->attacked_id=0;
-			md->state.skillstate= MSS_IDLE;
+			mob_setstate(*md, MSS_IDLE);
 			break;
 		}
 		case BL_PET: {
