@@ -6720,6 +6720,11 @@ Body:
             Level: 5
           - Name: DK_TWOHANDDEF
             Level: 10
+      - Name: DK_DRAGONIC_PIERCE
+        MaxLevel: 5
+        Requires:
+          - Name: DK_HACKANDSLASHER
+            Level: 7
   - Job: Meister
     Inherit:
       Novice: true
@@ -7019,6 +7024,13 @@ Body:
         Requires:
           - Name: AG_RAIN_OF_CRYSTAL
             Level: 1
+      - Name: AG_ENERGY_CONVERSION
+        MaxLevel: 5
+        Requires:
+          - Name: WL_RECOGNIZEDSPELL
+            Level: 2
+          - Name: AG_CLIMAX
+            Level: 1
   - Job: Cardinal
     Inherit:
       Novice: true
@@ -7297,6 +7309,13 @@ Body:
           - Name: IG_OVERSLASH
             Level: 3
           - Name: IG_SHIELD_SHOOTING
+            Level: 3
+      - Name: IG_IMPERIAL_PRESSURE
+        MaxLevel: 5
+        Requires:
+          - Name: IG_SPEAR_SWORD_M
+            Level: 7
+          - Name: IG_GUARD_STANCE
             Level: 3
   - Job: Biolo
     Inherit:
@@ -8200,6 +8219,13 @@ Body:
             Level: 5
           - Name: HN_NAPALM_VULCAN_STRIKE
             Level: 5
+      - Name: HN_OVERCOMING_CRISIS
+        MaxLevel: 5
+        Requires:
+          - Name: HN_SELFSTUDY_TATICS
+            Level: 5
+          - Name: HN_SELFSTUDY_SOCERY
+            Level: 5
   - Job: Spirit_Handler
     Inherit:
       Summoner: true
@@ -8305,6 +8331,20 @@ Body:
             Level: 1
           - Name: SH_MYSTICAL_CREATURE_MASTERY
             Level: 10
+      - Name: SH_CHUL_HO_BATTERING
+        MaxLevel: 7
+        Requires:
+          - Name: SH_MYSTICAL_CREATURE_MASTERY
+            Level: 7
+          - Name: SH_CHUL_HO_SONIC_CLAW
+            Level: 5
+      - Name: SH_HYUN_ROK_SPIRIT_POWER
+        MaxLevel: 7
+        Requires:
+          - Name: SH_MYSTICAL_CREATURE_MASTERY
+            Level: 7
+          - Name: SH_HYUN_ROKS_BREEZE
+            Level: 5
   - Job: Sky_Emperor
     Inherit:
       Novice: true
