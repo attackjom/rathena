@@ -829,9 +829,24 @@ DEFINE_PACKET_HEADER(ZC_CARTOFF, 0x12b)
 
 struct PACKET_ZC_ACK_GUILD_MENUINTERFACE {
 	int16 packetType;
-	int menuFlag;
+	int32 menuFlag;
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_ACK_GUILD_MENUINTERFACE, 0x014e)
+
+struct PACKET_ZC_ACK_CHANGE_GUILD_POSITIONINFO_sub {
+	int32 positionID;
+	int32 mode;
+	int32 ranking;
+	int32 payRate;
+	char posName[NAME_LENGTH];
+} __attribute__((packed));
+
+struct PACKET_ZC_ACK_CHANGE_GUILD_POSITIONINFO {
+	int16 packetType;
+	int16 packetLength;
+	PACKET_ZC_ACK_CHANGE_GUILD_POSITIONINFO_sub posInfo[];
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_ACK_CHANGE_GUILD_POSITIONINFO, 0x174);
 
 struct PACKET_ZC_NOTIFY_POSITION_TO_GUILDM {
 	int16 packetType;
@@ -1343,6 +1358,13 @@ struct PACKET_ZC_EL_PAR_CHANGE {
 	uint32 value;
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_EL_PAR_CHANGE, 0x81e);
+
+
+struct PACKET_CZ_REQ_EMOTION {
+	int16 packetType;
+	uint8 emotion_type;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(CZ_REQ_EMOTION, 0xbf);
 
 #if PACKETVER >= 20131223
 struct PACKET_ZC_NOTIFY_ACT{

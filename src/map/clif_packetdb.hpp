@@ -63,7 +63,7 @@
 	parseable_packet(0x00b9,6,clif_parse_NpcNextClicked,2);
 	packet(0x00ba,2);
 	parseable_packet(0x00bb,5,clif_parse_StatusUp,2,4);
-	parseable_packet(0x00bf,3,clif_parse_Emotion,2);
+	parseable_packet( HEADER_CZ_REQ_EMOTION, sizeof(  PACKET_CZ_REQ_EMOTION ), clif_parse_Emotion, 0 );
 	parseable_packet(0x00c1,2,clif_parse_HowManyConnections,0);
 	packet(0x00c3,8);
 	parseable_packet( HEADER_CZ_ACK_SELECT_DEALTYPE, sizeof( PACKET_CZ_ACK_SELECT_DEALTYPE ), clif_parse_NpcBuySellSelected, 0 );
@@ -165,7 +165,6 @@
 	parseable_packet(0x016e,186,clif_parse_GuildChangeNotice,2,6,66);
 	parseable_packet(0x0170,14,clif_parse_GuildRequestAlliance,2,6,10);
 	parseable_packet(0x0172,10,clif_parse_GuildReplyAlliance,2,6);
-	packet(0x0174,-1);
 	packet(0x0175,6);
 	packet(0x0176,106);
 	packet(0x0177,-1);

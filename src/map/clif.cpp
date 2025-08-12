@@ -8909,20 +8909,27 @@ void clif_guild_positionchanged(const struct mmo_guild &g,int32 idx)
 	// FIXME: This packet is intended to update the clients after a
 	// commit of position info changes, not sending one packet per
 	// position.
-	map_session_data *sd;
-	unsigned char buf[128];
+	map_session_data* sd = guild_getavailablesd(g);
 
-	WBUFW(buf, 0)=0x174;
-	WBUFW(buf, 2)=44;  // packet len
-	// GUILD_REG_POSITION_INFO{
-	WBUFL(buf, 4)=idx;
-	WBUFL(buf, 8)=g.position[idx].mode;
-	WBUFL(buf,12)=idx;
-	WBUFL(buf,16)=g.position[idx].exp_mode;
-	safestrncpy(WBUFCP(buf,20),g.position[idx].name,NAME_LENGTH);
-	// }*
-	if( (sd=guild_getavailablesd(g))!=nullptr )
-		clif_send(buf,WBUFW(buf,2),sd,GUILD);
+	if( sd == nullptr ){
+		return;
+	}
+
+	PACKET_ZC_ACK_CHANGE_GUILD_POSITIONINFO* p = reinterpret_cast<PACKET_ZC_ACK_CHANGE_GUILD_POSITIONINFO*>( packet_buffer );
+
+	p->packetType = HEADER_ZC_ACK_CHANGE_GUILD_POSITIONINFO;
+	p->packetLength = sizeof(*p);
+
+	PACKET_ZC_ACK_CHANGE_GUILD_POSITIONINFO_sub& info = p->posInfo[0];
+
+	info.positionID = idx;
+	info.mode = g.position[idx].mode;
+	info.ranking = idx;
+	info.payRate = g.position[idx].exp_mode;
+	safestrncpy(info.posName, g.position[idx].name, sizeof(info.posName));
+	p->packetLength += static_cast<decltype(p->packetLength)>(sizeof(info));
+
+	clif_send(p,p->packetLength,sd,GUILD);
 }
 
 
@@ -10952,6 +10959,11 @@ void clif_parse_LoadEndAck(int32 fd,map_session_data *sd)
 			}
 		}
 #endif
+
+#if PACKETVER >= 20230419
+		clif_configuration( sd, CONFIG_DISABLE_SHOWCOSTUMES, sd->status.disable_showcostumes );
+#endif
+
 		clif_reputation_list( *sd );
 
 		if (sd->guild && battle_config.guild_notice_changemap == 1){
@@ -11533,16 +11545,20 @@ void clif_parse_ChangeDir(int32 fd, map_session_data *sd)
 }
 
 
-/// Request to show an emotion (CZ_REQ_EMOTION).
-/// 00bf <type>.B
-/// type:
-///     @see enum emotion_type
+/// Request to show an emotion 
+/// 00bf <type>.B (CZ_REQ_EMOTION).
 void clif_parse_Emotion(int32 fd, map_session_data *sd){
 	if( sd == nullptr ){
 		return;
 	}
 
-	int32 emoticon = RFIFOB(fd,packet_db[RFIFOW(fd,0)].pos[0]);
+	const PACKET_CZ_REQ_EMOTION* p = reinterpret_cast<PACKET_CZ_REQ_EMOTION*>( RFIFOP( fd, 0 ) );
+
+	if( p->emotion_type >= ET_MAX ){
+		return;
+	}
+	
+	emotion_type emoticon = static_cast<emotion_type>( p->emotion_type );
 
 	if (battle_config.basic_skill_check == 0 || pc_checkskill(sd, NV_BASIC) >= 2 || pc_checkskill(sd, SU_BASIC_SKILL) >= 1) {
 		if (emoticon == ET_CHAT_PROHIBIT) {// prevent use of the mute emote [Valaris]
@@ -11570,10 +11586,10 @@ void clif_parse_Emotion(int32 fd, map_session_data *sd){
 		}
 
 		if(battle_config.client_reshuffle_dice && emoticon>=ET_DICE1 && emoticon<=ET_DICE6) {// re-roll dice
-			emoticon = rnd()%6+ET_DICE1;
+			emoticon = static_cast<emotion_type>( rnd()%6+ET_DICE1 );
 		}
 
-		clif_emotion( *sd, static_cast<emotion_type>( emoticon ) );
+		clif_emotion( *sd, emoticon );
 	} else
 		clif_skill_fail( *sd, 1, USESKILL_FAIL_LEVEL, 1 );
 }
@@ -14861,7 +14877,6 @@ void clif_parse_GM_Item_Monster(int32 fd, map_session_data *sd)
 		StringBuf_Init(&command);
 		StringBuf_Printf(&command, "%czeny %d", atcommand_symbol, INT_MAX);
 		is_atcommand(fd, sd, StringBuf_Value(&command), 1);
-		StringBuf_Destroy(&command);
 		return;
 	}
 
@@ -14879,7 +14894,6 @@ void clif_parse_GM_Item_Monster(int32 fd, map_session_data *sd)
 				StringBuf_Printf(&command, "%citem %u 20", atcommand_symbol, id->nameid);
 		}
 		is_atcommand(fd, sd, StringBuf_Value(&command), 1);
-		StringBuf_Destroy(&command);
 		return;
 	}
 
@@ -17647,6 +17661,10 @@ void clif_parse_configuration( int32 fd, map_session_data* sd ){
 			}
 
 			sd->hd->homunculus.autofeed = flag;
+			break;
+		case CONFIG_DISABLE_SHOWCOSTUMES:
+			sd->status.disable_showcostumes = flag;
+			pc_set_costume_view(sd);
 			break;
 		default:
 			ShowWarning( "clif_parse_configuration: received unknown configuration type '%d'...\n", type );
